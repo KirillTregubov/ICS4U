@@ -1,0 +1,19 @@
+The object of the game is to make the best poker hand possible with only three cards. To start,
+the player places an ante wager (5$) and/or a pair plus wager, betting that they will have a
+at 1 to 1 if the player has a better hand than the dealer. 
+
+If the dealer’s hand is superior, both the ante and play bets are collected. 
+
+The pair plus bet is determined completely independent to what the dealer has. 
+
+Pair plus payouts:
+Straight Flush          40 to 1
+Three of a Kind         30 to 1
+Straight                6 to 1
+Flush                   3 to 1
+Pair                    1 to 1
+
+Ante bonus payouts:
+Straight Flush          5 to 1
+Three of a Kind         4 to 1
+Straight                1 to 1

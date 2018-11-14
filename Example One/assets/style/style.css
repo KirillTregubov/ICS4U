@@ -1,0 +1,17 @@
+p {
+    font-size: 20px;
+    color: fuchsia;
+}
+
+.c1 {
+    color: blue;
+}
+
+#p2 {
+    color: brown;
+}
+
+.hoverClass {
+    font-size: 30px;
+    color: cyan;
+}
