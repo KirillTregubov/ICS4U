@@ -8,13 +8,31 @@
 </head>
 
 <body>
+    <nav id="nav">
+        <ul>
+            <li><a>Restart</a></li>
+            <li><a>Credits</a></li>
+            <li class="right"><a class="disabled">Balance: <span id="playerBalance" class="bolded">ERROR</span></a></li>
+        </ul>
+    </nav>
 
-    <section id="bet">
-        <input id="betInput" type="text" placeholder="Bet" />
-        <input type="button" onclick="updateBet();" value="Place Bet" />
-        <p>
-            Your bet was <span id="bet">??</span>
-        </p>
+    <section id="start" class="flex">
+        <h1>Welcome to BlackJack!</h1>
+        <h2>Description</h2>
+        <a class="button" onclick="startGame();">Start the game</a>
+        <a class="button secondary">Start the game</a>
+    </section>
+
+    <section id="bet" class="flex hasNavbar">
+        <h1>Place a Bet</h1>
+        <div class="inputBox">
+            <input id="betInput" onchange="updateBet();" type="text" placeholder="minimum $5 bet" required />
+            <span class="bar"></span>
+            <label>Bet Amount</label>
+        </div>
+        <!--  <p>Your bet was $<span id="betValue">??</span></p> -->
+        <a class="button secondary">Place Bet</a>
+    </section>
     </section>
 </body>
 

@@ -3,14 +3,48 @@ var NUM_FACES = 13;
 var BLACK_JACK = 21;
 var MIN_BET = 5;
 var HIT = 1;
-var playerWallet;
-var gameOver;
+var playerBalance;
 
+// document.name.addEventListener('click', function() { /* do stuff here*/ }, false);
+function startGame() {
+    console.log("Started Game");
+    playerBalance = 500;
+
+    // Show player betting view
+    document.getElementById("start").style.opacity = '0';
+    setTimeout(function () {
+        document.getElementById("start").style.display = "none";
+        document.getElementById("bet").style.display = "flex"; // Change "bet
+        updateBalance();
+        setTimeout(function () {
+            document.getElementById("bet").style.opacity = '1';
+            document.getElementById("nav").style.display = "block";
+        }, 100);
+    }, 500);
+}
+
+var currentBet;
+
+function updateBet() {
+    currentBet = document.getElementById("betInput").value;
+
+    document.getElementById("betValue").innerHTML = currentBet;
+   // document.querySelectorAll("body")[0].append('<p>hi</p>');
+}
+
+function updateBalance() {
+    document.getElementById("playerBalance").innerHTML = "$" + playerBalance;
+    console.log("balance");
+    
+}
+
+//var gameOver;
+
+/*
 window.onload = function () {
     //main();
 }
 
-/*
 function main() {
     playerBalance = 500;
     gameOver = false;
@@ -34,15 +68,6 @@ function getValidBet(money) {
     console.log("Please enter your bet ($" + MIN_BET + "minimum)");
     console.log("> ");
 }*/
-
-var currentBet;
-
-function updateBet() {
-    currentBet = document.getElementById("betInput").value;
-
-    document.getElementById("bet").innerHTML = currentBet;
-    document.querySelectorAll("body")[0].append('<p>hi</p>');
-}
 
 function testMe() {
     // console.log('This is a test.'); print to console
