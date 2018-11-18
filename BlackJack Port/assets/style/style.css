@@ -34,35 +34,108 @@ section.flex .inputBox {
     width: 25vw;
 }
 
-section#bet {
-    display: none;
-    opacity: 0;
-}
-
 section.hasNavbar {
     height: 90vh;
 }
 
-/* Navigation */
-nav {
-    -webkit-touch-callout: none;
-    /* iOS Safari */
-    -webkit-user-select: none;
-    /* Safari */
-    -khtml-user-select: none;
-    /* Konqueror HTML */
-    -moz-user-select: none;
-    /* Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
-    user-select: none;
-    /* Non-prefixed version, currently supported by Chrome and Opera */
-    
+section.hidden {
     display: none;
+    opacity: 0;
+}
+
+section#play {
+    flex-direction: row;
+}
+
+section#play * {
+    width: 50vw;
+}
+
+section#play img {
+    height: 30vh;
+    width: auto;
+    margin: 0 0.5vw 2vh 0.5vw;
+}
+
+/* Footer */
+footer {
+    display: flex;
+    opacity: 1;
     padding: 0 2vw;
     background-color: #272833;
     color: #A0A1AE;
     font-size: 1.1em;
+    -webkit-transition: opacity 200ms linear;
+    transition: opacity 200ms linear;
+}
+
+footer ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+footer ul li {
+    padding: 2vh 0;
+    margin-right: 2vw;
+    border-right: 2px #fff;
+}
+
+footer ul li::before {
+    content: '';
+    padding: 3px 0;
+    height: 40px;
+    margin: 0 2vw 0 0;
+    border-left: 1px solid #A0A1AE;
+}
+
+footer ul li.right {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+footer ul li.right::before,
+footer ul li:first-child::before {
+    display: none;
+}
+
+footer ul li a {
+    cursor: pointer;
+    padding: inherit;
+}
+
+footer ul li a:hover,
+footer ul li a.active {
+    color: #f44336;
+}
+
+footer ul li a.disabled:hover {
+    cursor: not-allowed;
+    color: inherit;
+}
+
+/* Navigation Bar */
+
+/* Other Modules */
+.noInteraction {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+nav {
+    display: none;
+    opacity: 0;
+    padding: 0 2vw;
+    background-color: #272833;
+    color: #A0A1AE;
+    font-size: 1.1em;
+    -webkit-transition: opacity 200ms linear;
+    transition: opacity 200ms linear;
 }
 
 nav ul {
@@ -124,12 +197,40 @@ h2 {
     margin: 0 0 0.5em 0;
 }
 
+.inputBox h5 {
+    display: none;
+    margin: 1vh 0;
+    color: #ffc107;
+    font-weight: 100;
+    -webkit-transition: opacity 500ms linear;
+    transition: opacity 500ms linear;
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes shake {
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translate3d(3px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-3px, 0, 0);
+    }
+}
+
 .bolded {
     font-weight: 700;
 }
 
 /* Buttons */
-
 .button {
     background-color: #f44336;
     border: none;

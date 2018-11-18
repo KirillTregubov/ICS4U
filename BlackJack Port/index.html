@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <nav id="nav">
+    <nav id="nav" class="noInteraction">
         <ul>
             <li><a>Restart</a></li>
             <li><a>Credits</a></li>
@@ -23,17 +23,51 @@
         <a class="button secondary">Start the game</a>
     </section>
 
-    <section id="bet" class="flex hasNavbar">
+    <section id="bet" class="flex hidden hasNavbar">
         <h1>Place a Bet</h1>
         <div class="inputBox">
             <input id="betInput" onchange="updateBet();" type="text" placeholder="minimum $5 bet" required />
             <span class="bar"></span>
             <label>Bet Amount</label>
+            <h5 id="betInputError"></h5>
         </div>
         <!--  <p>Your bet was $<span id="betValue">??</span></p> -->
-        <a class="button secondary">Place Bet</a>
+        <a class="button secondary" onclick="placeBet();">Place Bet</a>
     </section>
+
+    <section id="play" class="flex hidden autowidth hasNavbar">
+        <div>
+            <h1>Dealer's Cards</h1>
+            <div class="cards">
+                <img src="assets/images/cards/2H.png" />
+                <img src="assets/images/cards/2D.png" />
+            </div>
+        </div>
+        <div>
+            <h1>Your Cards</h1>
+            <div id="playerCards" class="cards">
+                <img src="assets/images/cards/2S.png" />
+                <img src="assets/images/cards/2C.png" />
+                <img src="assets/images/cards/2C.png" />
+                <img src="assets/images/cards/2C.png" />
+                <img src="assets/images/cards/2C.png" />
+                <img src="assets/images/cards/2C.png" />
+                <img src="assets/images/cards/2S.png" />
+                <img src="assets/images/cards/2S.png" />
+                <img src="assets/images/cards/2S.png" />
+                <img src="assets/images/cards/2S.png" />
+                <img src="assets/images/cards/2S.png" />
+            </div>
+        </div>
     </section>
+
+    <!-- <footer id="">
+        <ul>
+            <li><a>Restart</a></li>
+            <li><a>Credits</a></li>
+            <li class="right"><a class="disabled">Balance: <span id="playerBalance" class="bolded">ERROR</span></a></li>
+        </ul>
+    </footer> -->
 </body>
 
 </html>
