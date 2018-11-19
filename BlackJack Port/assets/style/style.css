@@ -82,7 +82,7 @@ section #drawResult {
 }
 
 section #buttonWrapper {
-    display: flex;
+    display: none;
     opacity: 0;
     -webkit-transition: opacity 1000ms linear;
     transition: opacity 1000ms linear;

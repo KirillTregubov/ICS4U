@@ -32,12 +32,11 @@ function startGame() {
     console.log("Started Game");
     playerBalance = maxMoney = 500;
 
-    resetValues();
-    transition(true, "start", "bet");
+    transition(true, "bet", resetValues);
 }
 
 function continueGame() {
-    transition(true, "end", "bet");
+    transition(true, "bet");
     setTimeout(function () {
         resetValues();
     }, 500);
@@ -68,7 +67,7 @@ function placeBet() {
         console.log("Player: " + playerHand + " Values: " + playerHandValue + " " + playerHandValueLowAce);
 
         // transition
-        transition(false, "bet", "play");
+        transition(false, "play");
         preloadImages();
         timer = setInterval(displayCards, 700);
         if (playerHandValue == BLACK_JACK) {
@@ -157,7 +156,7 @@ function goToEnd() {
     if (playerBalance >= MIN_BET) {
         document.getElementById("endMessage").innerText = "Continue playing?";
         child = document.createElement('a');
-        child.classList = "button";
+        child.classList.add("button");
         child.onclick = continueGame;
         child.innerText = "Yes";
     } else {
@@ -165,21 +164,7 @@ function goToEnd() {
         child.innerText = "Your highest amount of money was $" + maxMoney + ".";
     }
     document.getElementById("end").insertChildAtIndex(child, 1);
-    transition(false, "play", "end");
-}
-
-function restart() {
-    updateBalance();
-    document.getElementById("end").style.opacity = '0';
-    document.getElementById("nav").style.opacity = '0';
-    setTimeout(function () {
-        document.getElementById("end").style.display = "none";
-        document.getElementById("nav").style.display = "none";
-        document.getElementById("start").style.display = "flex";
-        setTimeout(function () {
-            document.getElementById("start").style.opacity = '1';
-        }, 200);
-    }, 500);
+    transition(false, "end");
 }
 
 function showActions() {
@@ -200,20 +185,29 @@ function updatePlayerMessage(message) {
     document.getElementById("resultMessage").innerHTML = message;
 }
 
-function transition(useNav, firstSection, secondSection) {
+function transition(useNav, nextSection, command) {
+    let current = document.getElementsByClassName("current")[0];
+    let next = document.getElementById(nextSection);
+    let nav = document.getElementById("nav");
+
     updateBalance();
-    document.getElementById(firstSection).style.opacity = '0';
+    current.style.opacity = '0';
     setTimeout(function () {
-        document.getElementById(firstSection).style.display = "none";
+        current.style.display = "none";
         if (useNav)
-            document.getElementById("nav").style.display = "block";
-        document.getElementById(secondSection).style.display = "flex";
+            nav.style.display = "block";
+        try {
+            command();
+        } catch (e) {}
+        next.style.display = "flex";
         setTimeout(function () {
             if (useNav)
-                document.getElementById("nav").style.opacity = '1';
-            document.getElementById(secondSection).style.opacity = '1';
-        }, 100);
+                nav.style.opacity = '1';
+            next.style.opacity = '1';
+        }, 200);
     }, 500);
+    current.classList.remove("current");
+    next.classList.add("current");
 }
 
 function displayCards() {
@@ -235,7 +229,7 @@ function displayCards() {
 
     if (elem.childElementCount > 3) {
         for (let i = 0; i < elem.childElementCount; i++)
-            elem.getElementsByTagName('img')[i].classList += " smaller";
+            elem.getElementsByTagName('img')[i].classList.add("smaller");
     }
 
     if (playerCardsShown + dealerCardsShown == playerHand.length + dealerHand.length) {
@@ -316,7 +310,7 @@ function resetValues() {
     document.getElementById("endWrapper").style.opacity = 1;
     document.getElementById("endWrapper").style.display = "none";
     document.getElementById("resultMessage").innerText = "";
-    document.getElementById("end").innerHTML = "<h1 id=\"endMessage\" class=\"special\">You Lost!</h1> <a class = \"button\" onclick=\"restart();\">Restart</a>"
+    document.getElementById("end").innerHTML = "<h1 id=\"endMessage\" class=\"special\">You Lost!</h1> <a class = \"button\" onclick=\"startGame();\">Restart</a>"
 }
 
 function enterDetector(e) {
@@ -407,6 +401,20 @@ function updateHandValueLowAce(handValue, card) {
     return handValue + getCardValue(card);
 }
 
+var origin;
+
+function openCredits() {
+    document.getElementById("creditsLink").innerHTML = "<a onclick=\"goBack();\">Return</a>";
+    origin = document.getElementsByClassName("current")[0].id;
+    transition(true, "credits");
+}
+
+function goBack() {
+    document.getElementById("creditsLink").innerHTML = "<a onclick=\"openCredits();\">Credits</a>";
+    transition(true, origin);
+    origin = "";
+}
+
 Element.prototype.insertChildAtIndex = function (child, index) {
     if (!index) index = 0
     if (index >= this.children.length) {
@@ -414,56 +422,4 @@ Element.prototype.insertChildAtIndex = function (child, index) {
     } else {
         this.insertBefore(child, this.children[index])
     }
-}
-
-/*
-function main() {
-    playerBalance = 500;
-    gameOver = false;
-
-    while (!isGameOver) {
-        var playerNumAces;
-        var playerHand;
-        var playerHandValueLowAce;
-        var playerHandValue;
-        
-        var dealerNumAces;
-        var dealerHand;
-        var dealerHandValueLowAce;
-        var dealerHandValue;
-
-        var currentBet = getValidBet(playerBalance);
-    }
-}
-
-function getValidBet(money) {
-    console.log("Please enter your bet ($" + MIN_BET + "minimum)");
-    console.log("> ");
-}*/
-
-function testMe() {
-    // console.log('This is a test.'); print to console
-    var arr = [];
-    arr[2] = "Hello";
-    arr[1] = 5;
-    arr[0] = function () {
-        alert("Haha!");
-    };
-    //arr[0]();
-
-    var obj = {};
-    obj.var1 = 6;
-    obj.var2 = arr;
-    obj.func1 = function () {
-        console.log(this.var1);
-    };
-
-    var obj2 = {};
-    obj2.var1 = 5;
-    obj2.var2 = 10;
-
-    var jsonString = JSON.stringify(obj2);
-    console.log(jsonString);
-
-    var obj3 = JSON.parse(jsonString);
 }
