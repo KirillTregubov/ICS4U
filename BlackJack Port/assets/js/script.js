@@ -4,9 +4,14 @@ var NUM_FACES = 13;
 var BLACK_JACK = 21;
 var MIN_BET = 5;
 var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-// Player Variables
+// Other Variables
+var maxMoney;
+var isHit;
+var endImages;
+var timer;
 var cardStack;
 var hash;
+// Player Variables
 var playerBalance;
 var currentBet;
 var isBetValid;
@@ -15,29 +20,18 @@ var playerNumAces;
 var playerHand;
 var playerHandValueLowAce;
 var playerHandValue;
+var playerCardsShown;
 // Dealer Variables
 var dealerNumAces;
 var dealerHand;
 var dealerHandValueLowAce;
 var dealerHandValue;
-
-function restart() {
-    updateBalance();
-    document.getElementById("end").style.opacity = '0';
-    document.getElementById("nav").style.opacity = '0';
-    setTimeout(function () {
-        document.getElementById("end").style.display = "none";
-        document.getElementById("nav").style.display = "none";
-        document.getElementById("start").style.display = "flex";
-        setTimeout(function () {
-            document.getElementById("start").style.opacity = '1';
-        }, 200);
-    }, 500);
-}
+var dealerCardsShown;
 
 function startGame() {
     console.log("Started Game");
-    playerBalance = 500;
+    playerBalance = maxMoney = 500;
+
     resetValues();
     transition(true, "start", "bet");
 }
@@ -54,44 +48,42 @@ function placeBet() {
     if (isBetValid) {
         playerBalance -= currentBet;
 
-        // Show play view
-        transition(false, "bet", "play");
-        setTimeout(function () {
-            let dealerCard = getCard();
-            addCard(dealerHand, dealerCard);
-            if (isAce(dealerCard))
-                dealerNumAces++;
-            dealerHandValueLowAce = updateHandValueLowAce(dealerHandValueLowAce, dealerCard);
-            dealerHandValue = updateHandValue(dealerHandValueLowAce, dealerNumAces);
+        let dealerCard = getCard();
+        dealerHand.push(dealerCard);
+        if (isAce(dealerCard))
+            dealerNumAces++;
+        dealerHandValueLowAce = updateHandValueLowAce(dealerHandValueLowAce, dealerCard);
+        dealerHandValue = updateHandValue(dealerHandValueLowAce, dealerNumAces);
 
-            setTimeout(function () {
-                for (let i = 0; i < 2; i++) {
-                    let playerCard = getCard();
-                    addCard(playerHand, playerCard);
-                    if (isAce(playerCard))
-                        playerNumAces++;
-                    playerHandValueLowAce = updateHandValueLowAce(playerHandValueLowAce, playerCard);
-                    playerHandValue = updateHandValue(playerHandValueLowAce, playerNumAces);
-                }
-                console.log("Dealer: " + dealerHand + " Values: " + dealerHandValue + " " + dealerHandValueLowAce);
-                console.log("Player: " + playerHand + " Values: " + playerHandValue + " " + playerHandValueLowAce);
-                setTimeout(function () {
-                    if (playerHandValue == BLACK_JACK) {
-                        isPlayerDone = true;
-                        updatePlayerMessage("Black Jack!!");
-                    }
-                    showActions();
-                    document.getElementById("hash").innerHTML = hash;
-                    document.getElementById("hashWrapper").style.opacity = 1;
-                }, 500);
-            }, 800);
-        }, 1000);
+
+        for (let i = 0; i < 2; i++) {
+            let playerCard = getCard();
+            playerHand.push(playerCard);
+            if (isAce(playerCard))
+                playerNumAces++;
+            playerHandValueLowAce = updateHandValueLowAce(playerHandValueLowAce, playerCard);
+            playerHandValue = updateHandValue(playerHandValueLowAce, playerNumAces);
+        }
+        console.log("Dealer: " + dealerHand + " Values: " + dealerHandValue + " " + dealerHandValueLowAce);
+        console.log("Player: " + playerHand + " Values: " + playerHandValue + " " + playerHandValueLowAce);
+
+        // transition
+        transition(false, "bet", "play");
+        preloadImages();
+        timer = setInterval(displayCards, 700);
+        if (playerHandValue == BLACK_JACK) {
+            isPlayerDone = true;
+            updatePlayerMessage("Black Jack!!");
+        }
+        showActions();
+        document.getElementById("hash").innerHTML = hash;
+        document.getElementById("hashWrapper").style.opacity = 1;
     }
 }
 
 function hit() {
     let card = getCard();
-    addCard(playerHand, card);
+    playerHand.push(card);
 
     if (isAce(card))
         playerNumAces++;
@@ -99,6 +91,13 @@ function hit() {
     playerHandValueLowAce = updateHandValueLowAce(playerHandValueLowAce, card);
     playerHandValue = updateHandValue(playerHandValueLowAce, playerNumAces);
 
+    //display card
+    isHit = true;
+    preloadImages();
+    timer = setInterval(displayCards, 200);
+}
+
+function continueHit() {
     if (playerHandValue > BLACK_JACK) {
         updatePlayerMessage("Bust!!");
         endGame();
@@ -115,76 +114,72 @@ function stand() {
 
 function endGame() {
     document.getElementById("buttonWrapper").style.opacity = document.getElementById("continueWrapper").style.opacity = 0;
-    setTimeout(function () {
-        while (dealerHandValue < 17) {
-            let dealerCard = getCard();
-            addCard(dealerHand, dealerCard);
-            if (isAce(dealerCard))
-                dealerNumAces++;
-            dealerHandValueLowAce = updateHandValueLowAce(dealerHandValueLowAce, dealerCard);
-            dealerHandValue = updateHandValue(dealerHandValueLowAce, dealerNumAces);
-        }
+    while (dealerHandValue < 17) {
+        let dealerCard = getCard();
+        dealerHand.push(dealerCard);
+        if (isAce(dealerCard))
+            dealerNumAces++;
+        dealerHandValueLowAce = updateHandValueLowAce(dealerHandValueLowAce, dealerCard);
+        dealerHandValue = updateHandValue(dealerHandValueLowAce, dealerNumAces);
+    }
+    console.log("Dealer: " + dealerHand + " Values: " + dealerHandValue + " " + dealerHandValueLowAce);
+    console.log("Player: " + playerHand + " Values: " + playerHandValue + " " + playerHandValueLowAce);
 
-        console.log("Dealer: " + dealerHand + " Values: " + dealerHandValue + " " + dealerHandValueLowAce);
-        console.log("Player: " + playerHand + " Values: " + playerHandValue + " " + playerHandValueLowAce);
-        //setTimeout(function () {}, 1500);
+    //display cards
+    endImages = true;
+    preloadImages();
+    timer = setInterval(displayCards, 700);
+}
 
-        setTimeout(function () {
-            if (playerHandValue > BLACK_JACK)
-                updatePlayerMessage("House Wins!!");
-            else if ((playerHandValue > dealerHandValue && playerHandValue <= BLACK_JACK) || (dealerHandValue > BLACK_JACK && playerHandValue <= BLACK_JACK)) {
-                playerBalance += currentBet * 2;
-                updatePlayerMessage("You Win!!");
-            } else if (playerHandValue == dealerHandValue && playerHandValue <= BLACK_JACK) {
-                playerBalance += currentBet;
-                updatePlayerMessage("Push! Your bet has been returned.");
-            } else {
-                updatePlayerMessage("Dealer Wins!!");
-            }
-            updateBalance();
-            document.getElementById("buttonWrapper").style.display = document.getElementById("continueWrapper").style.display = "none";
-            document.getElementById("endWrapper").style.display = "flex";
-            setTimeout(function () {
-                document.getElementById("endWrapper").style.opacity = 1;
-            }, 200);
-        }, 1000);
-    }, 1000);
+function continueEndGame() {
+    if (playerHandValue > BLACK_JACK)
+        updatePlayerMessage("House Wins!!");
+    else if ((playerHandValue > dealerHandValue && playerHandValue <= BLACK_JACK) || (dealerHandValue > BLACK_JACK && playerHandValue <= BLACK_JACK)) {
+        playerBalance += currentBet * 2;
+        updatePlayerMessage("You Win!!");
+    } else if (playerHandValue == dealerHandValue && playerHandValue <= BLACK_JACK) {
+        playerBalance += currentBet;
+        updatePlayerMessage("Push! Your bet has been returned.");
+    } else {
+        updatePlayerMessage("Dealer Wins!!");
+    }
+    updateBalance();
+    document.getElementById("buttonWrapper").style.display = document.getElementById("continueWrapper").style.display = "none";
+    document.getElementById("endWrapper").style.display = "flex";
+    document.getElementById("endWrapper").style.opacity = 1;
 }
 
 function goToEnd() {
-    console.log(playerBalance);
+    if (playerBalance > maxMoney)
+        maxMoney = playerBalance;
+
+    let child;
     if (playerBalance >= MIN_BET) {
         document.getElementById("endMessage").innerText = "Continue playing?";
-        var child = document.createElement('a');
+        child = document.createElement('a');
         child.classList = "button";
         child.onclick = continueGame;
         child.innerText = "Yes";
-        var parent = document.getElementById("end");
-        parent.insertChildAtIndex(child, 1);
+    } else {
+        child = document.createElement('h2');
+        child.innerText = "Your highest amount of money was $" + maxMoney + ".";
     }
+    document.getElementById("end").insertChildAtIndex(child, 1);
     transition(false, "play", "end");
 }
 
-function addCard(hand, card) {
-    let elem;
-    if (hand == dealerHand) {
-        elem = document.getElementsByClassName("cards")[0];
-    } else {
-        elem = document.getElementsByClassName("cards")[1];
-    }
-
-    hand.push(card);
-    var e = document.createElement('img');
-    e.src = "assets/images/cards/" + card + ".png";
-    elem.appendChild(e);
-    window.getComputedStyle(e).opacity;
-    e.className += 'shown';
+function restart() {
+    updateBalance();
+    document.getElementById("end").style.opacity = '0';
+    document.getElementById("nav").style.opacity = '0';
     setTimeout(function () {
-        if (elem.childElementCount > 3) {
-            for (let i = 0; i < elem.childElementCount; i++)
-                elem.getElementsByTagName('img')[i].style.height = "20vh";
-        }
-    }, 1000);
+        document.getElementById("end").style.display = "none";
+        document.getElementById("nav").style.display = "none";
+        document.getElementById("start").style.display = "flex";
+        setTimeout(function () {
+            document.getElementById("start").style.opacity = '1';
+        }, 200);
+    }, 500);
 }
 
 function showActions() {
@@ -221,6 +216,57 @@ function transition(useNav, firstSection, secondSection) {
     }, 500);
 }
 
+function displayCards() {
+    let elem, card;
+    if (!(dealerCardsShown == dealerHand.length)) {
+        elem = document.getElementsByClassName("cards")[0];
+        card = dealerHand[dealerCardsShown++];
+    } else if (!(playerCardsShown == playerHand.length)) {
+        elem = document.getElementsByClassName("cards")[1];
+        card = playerHand[playerCardsShown++];
+    } else {
+        return;
+    }
+    var e = document.createElement('img');
+    e.src = "assets/images/cards/" + card + ".png";
+    elem.appendChild(e);
+    window.getComputedStyle(e).opacity;
+    e.className += 'shown';
+
+    if (elem.childElementCount > 3) {
+        for (let i = 0; i < elem.childElementCount; i++)
+            elem.getElementsByTagName('img')[i].classList += " smaller";
+    }
+
+    if (playerCardsShown + dealerCardsShown == playerHand.length + dealerHand.length) {
+        clearInterval(timer);
+        timer = 0;
+        if (endImages) {
+            endImages = false;
+            continueEndGame();
+        } else if (isHit) {
+            isHit = false;
+            continueHit();
+        }
+    }
+}
+
+function preloadImages() {
+    let playerImages = playerCardsShown;
+    let dealerImages = dealerCardsShown;
+    try {
+        while (!(playerImages == playerHand.length) || !(dealerImages == dealerHand.length)) {
+            if (!(playerImages == playerHand.length)) {
+                var _img = new Image();
+                _img.src = "assets/images/cards/" + playerHand[playerImages++] + ".png";
+            } else if (!(dealerImages == dealerHand.length)) {
+                var _img = new Image();
+                _img.src = "assets/images/cards/" + dealerHand[dealerImages++] + ".png";
+            }
+        }
+    } catch (e) {}
+}
+
 function updateBet() {
     currentBet = parseInt(document.getElementById("betInput").value);
     // Check for errors
@@ -246,6 +292,8 @@ function updateBalance() {
 }
 
 function resetValues() {
+    isHit = false;
+    endImages = false;
     cardStack = [];
     hash = "";
     currentBet = null;
@@ -255,10 +303,12 @@ function resetValues() {
     playerHand = [];
     playerHandValueLowAce = 0;
     playerHandValue = 0;
+    playerCardsShown = 0;
     dealerNumAces = 0;
     dealerHand = [];
     dealerHandValueLowAce = 0;
     dealerHandValue = 0;
+    dealerCardsShown = 0;
 
     // Clear existing cards
     for (let i = 0; i < 2; i++)
