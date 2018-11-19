@@ -30,7 +30,7 @@ var dealerCardsShown;
 
 function startGame() {
     console.log("Started Game");
-    playerBalance = maxMoney = 500;
+    playerBalance = 500;
 
     transition(true, "bet", resetValues);
 }
@@ -135,6 +135,7 @@ function continueEndGame() {
         updatePlayerMessage("House Wins!!");
     else if ((playerHandValue > dealerHandValue && playerHandValue <= BLACK_JACK) || (dealerHandValue > BLACK_JACK && playerHandValue <= BLACK_JACK)) {
         playerBalance += currentBet * 2;
+        maxMoney += currentBet;
         updatePlayerMessage("You Win!!");
     } else if (playerHandValue == dealerHandValue && playerHandValue <= BLACK_JACK) {
         playerBalance += currentBet;
@@ -149,22 +150,34 @@ function continueEndGame() {
 }
 
 function goToEnd() {
-    if (playerBalance > maxMoney)
-        maxMoney = playerBalance;
-
     let child;
     if (playerBalance >= MIN_BET) {
+        document.getElementById("restartButton").innerText = "Quit";
+        document.getElementById("restartButton").classList.add("secondary");
+        document.getElementById("restartButton").onclick = quit;
         document.getElementById("endMessage").innerText = "Continue playing?";
+        //document.getElementById("finalRestart").innerHTML = "Quit";
         child = document.createElement('a');
         child.classList.add("button");
         child.onclick = continueGame;
         child.innerText = "Yes";
     } else {
         child = document.createElement('h2');
-        child.innerText = "Your highest amount of money was $" + maxMoney + ".";
+        child.innerText = "Your overall winnings were $" + maxMoney + ".";
     }
     document.getElementById("end").insertChildAtIndex(child, 1);
     transition(false, "end");
+}
+
+function quit() {
+    transition(false, "end", updateQuit);
+}
+
+function updateQuit() {
+    document.getElementById("end").innerHTML = "<h1 id=\"endMessage\" class=\"special\">You Lost!</h1> <a id=\"restartButton\" class= \"button\" onclick=\"startGame();\">Restart</a>"
+    child = document.createElement('h2');
+    child.innerText = "Your overall winnings were $" + maxMoney + ".";
+    document.getElementById("end").insertChildAtIndex(child, 1);
 }
 
 function showActions() {
@@ -286,6 +299,7 @@ function updateBalance() {
 }
 
 function resetValues() {
+    maxMoney = 0;
     isHit = false;
     endImages = false;
     cardStack = [];
@@ -310,7 +324,7 @@ function resetValues() {
     document.getElementById("endWrapper").style.opacity = 1;
     document.getElementById("endWrapper").style.display = "none";
     document.getElementById("resultMessage").innerText = "";
-    document.getElementById("end").innerHTML = "<h1 id=\"endMessage\" class=\"special\">You Lost!</h1> <a class = \"button\" onclick=\"startGame();\">Restart</a>"
+    document.getElementById("end").innerHTML = "<h1 id=\"endMessage\" class=\"special\">You Lost!</h1> <a id=\"restartButton\" class= \"button\" onclick=\"startGame();\">Restart</a>"
 }
 
 function enterDetector(e) {
