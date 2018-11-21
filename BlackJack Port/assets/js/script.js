@@ -43,7 +43,6 @@ function continueGame() {
 }
 
 function placeBet() {
-    console.log(maxMoney);
     updateBet();
     if (isBetValid) {
         playerBalance -= currentBet;
