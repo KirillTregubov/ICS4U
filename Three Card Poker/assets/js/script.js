@@ -2,10 +2,9 @@
 var NUM_SUITS = 4;
 var NUM_FACES = 13;
 var BLACK_JACK = 21;
-var MIN_BET = 5;
+var MIN_BET = 50;
 var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 // Other Variables
-var maxMoney;
 var isHit;
 var endImages;
 var timer;
@@ -14,8 +13,11 @@ var hash;
 var origin;
 // Player Variables
 var playerBalance;
-var currentBet;
-var isBetValid;
+var maxMoney;
+var anteBet;
+var ppBet;
+var isAnteValid
+var isPPValid;
 var isPlayerDone;
 var playerNumAces;
 var playerHand;
@@ -31,7 +33,6 @@ var dealerCardsShown;
 
 function startGame() {
     playerBalance = 500;
-    maxMoney = 0;
     transition(true, "bet", resetValues);
 }
 
@@ -43,10 +44,9 @@ function continueGame() {
 }
 
 function placeBet() {
-    console.log(maxMoney);
     updateBet();
-    if (isBetValid) {
-        playerBalance -= currentBet;
+    if (isAnteValid && isPPValid) {
+        playerBalance -= anteBet + ppBet;
 
         let dealerCard = getCard();
         dealerHand.push(dealerCard);
@@ -125,11 +125,11 @@ function continueEndGame() {
     if (playerHandValue > BLACK_JACK)
         updatePlayerMessage("House Wins!!");
     else if ((playerHandValue > dealerHandValue && playerHandValue <= BLACK_JACK) || (dealerHandValue > BLACK_JACK && playerHandValue <= BLACK_JACK)) {
-        playerBalance += currentBet * 2;
-        maxMoney += currentBet;
+        // playerBalance += currentBet * 2;
+        // maxMoney += currentBet;
         updatePlayerMessage("You Win!!");
     } else if (playerHandValue == dealerHandValue && playerHandValue <= BLACK_JACK) {
-        playerBalance += currentBet;
+        //playerBalance += currentBet;
         updatePlayerMessage("Push! Your bet has been returned.");
     } else {
         updatePlayerMessage("Dealer Wins!!");
@@ -268,21 +268,43 @@ function preloadImages() {
     } catch (e) {}
 }
 
-function updateBet() {
-    currentBet = parseInt(document.getElementById("betInput").value);
+function updateAnte() {
+    anteBet = parseInt(document.getElementById("anteInput").value);
     // Check for errors
-    let error = document.getElementById("betInputError");
-    if (!currentBet) {
+    let error = document.getElementById("anteInputError");
+    if (!anteBet) {
         error.innerHTML = "Please insert a valid number!";
         error.style.display = "block";
-    } else if (currentBet < MIN_BET) {
+    } else if (anteBet < MIN_BET) {
         error.innerHTML = "Unable to bet less than the minimum!";
         error.style.display = "block";
-    } else if (currentBet > playerBalance) {
+    } else if (anteBet > playerBalance) {
         error.innerHTML = "Unable to bet more than your available balance!";
         error.style.display = "block";
     } else {
-        isBetValid = true;
+        isAnteValid = true;
+        error.innerHTML = '';
+        error.style.display = "none";
+    }
+}
+
+function updatePP() {
+    ppBet = parseInt(document.getElementById("ppInput").value);
+    // Check for errors
+    let error = document.getElementById("ppInputError");
+    if (!ppBet) {
+        document.getElementById("ppInput").value = "";
+        isPPValid = true;
+        error.innerHTML = '';
+        error.style.display = "none";
+    } else if (ppBet < MIN_BET) {
+        error.innerHTML = "Unable to bet less than the minimum!";
+        error.style.display = "block";
+    } else if (ppBet > playerBalance) {
+        error.innerHTML = "Unable to bet more than your available balance!";
+        error.style.display = "block";
+    } else {
+        isPPValid = true;
         error.innerHTML = '';
         error.style.display = "none";
     }
@@ -293,12 +315,16 @@ function updateBalance() {
 }
 
 function resetValues() {
+    maxMoney = 0;
     isHit = false;
     endImages = false;
     cardStack = [];
     hash = "";
-    currentBet = null;
-    isBetValid = false;
+    //currentBet = null;
+    anteBet = "0";
+    ppBet = "0";
+    isAnteValid = false;
+    isPPValid = false;
     isPlayerDone = false;
     playerNumAces = 0;
     playerHand = [];
@@ -328,7 +354,8 @@ function enterDetector(e) {
 
 window.onload = function () {
     // Make enter deselect input
-    document.getElementById('betInput').addEventListener('keyup', enterDetector, false);
+    document.getElementById('anteInput').addEventListener('keyup', enterDetector, false);
+    document.getElementById('ppInput').addEventListener('keyup', enterDetector, false);
 }
 
 function getCardValue(card) {
