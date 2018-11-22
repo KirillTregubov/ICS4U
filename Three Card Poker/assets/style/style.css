@@ -76,30 +76,39 @@ section#play img.smaller {
     height: 20vh;
 }
 
-
 section #drawResult {
     margin-bottom: 3vh;
 }
 
-section #buttonWrapper {
-    display: none;
+section #resultMessage {
     opacity: 0;
-    -webkit-transition: opacity 1000ms linear;
-    transition: opacity 1000ms linear;
+    -webkit-transition: opacity 200ms linear;
+    transition: opacity 200ms linear;
 }
 
-section #continueWrapper,
 section #endWrapper {
     display: none;
+}
+
+section #buttonWrapper {
+    display: flex;
+}
+
+section #buttonWrapper,
+section #endWrapper {
     opacity: 0;
     -webkit-transition: opacity 1000ms linear;
     transition: opacity 1000ms linear;
 }
 
 section #buttonWrapper *,
-section #continueWrapper *,
 section #endWrapper * {
     margin: 0 2vw 0 2vw;
+}
+
+section .cards {
+    -webkit-transition: opacity 500ms linear;
+    transition: opacity 500ms linear;
 }
 
 section .cardWrapper {

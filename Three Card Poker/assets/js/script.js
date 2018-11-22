@@ -1,12 +1,18 @@
 // Constants
 var NUM_SUITS = 4;
 var NUM_FACES = 13;
-var BLACK_JACK = 21;
+var ANTE_STRAIGHT_FLUSH = 40;
+var ANTE_THREE_OF_A_KIND = 30;
+var ANTE_STRAIGHT = 6;
+var STRAIGHT_FLUSH = 40;
+var THREE_OF_A_KIND = 30;
+var STRAIGHT = 6;
+var FLUSH = 3;
+var PAIR = 1;
+var HIGH_CARD = 0;
 var MIN_BET = 50;
 var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 // Other Variables
-var isHit;
-var endImages;
 var timer;
 var cardStack;
 var hash;
@@ -18,21 +24,17 @@ var anteBet;
 var ppBet;
 var isAnteValid
 var isPPValid;
-var isPlayerDone;
-var playerNumAces;
 var playerHand;
-var playerHandValueLowAce;
-var playerHandValue;
 var playerCardsShown;
+var playerAnteType;
+var playerPPType;
 // Dealer Variables
-var dealerNumAces;
 var dealerHand;
-var dealerHandValueLowAce;
-var dealerHandValue;
 var dealerCardsShown;
+var dealerPPType;
 
 function startGame() {
-    playerBalance = 500;
+    playerBalance = 1000;
     transition(true, "bet", resetValues);
 }
 
@@ -43,102 +45,110 @@ function continueGame() {
     }, 500);
 }
 
-function placeBet() {
-    updateBet();
+function placeBets() {
+    updateAnte();
+    updatePP();
     if (isAnteValid && isPPValid) {
         playerBalance -= anteBet + ppBet;
 
-        let dealerCard = getCard();
-        dealerHand.push(dealerCard);
-        if (isAce(dealerCard))
-            dealerNumAces++;
-        dealerHandValueLowAce = updateHandValueLowAce(dealerHandValueLowAce, dealerCard);
-        dealerHandValue = updateHandValue(dealerHandValueLowAce, dealerNumAces);
-
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 3; i++) {
             let playerCard = getCard();
             playerHand.push(playerCard);
-            if (isAce(playerCard))
-                playerNumAces++;
-            playerHandValueLowAce = updateHandValueLowAce(playerHandValueLowAce, playerCard);
-            playerHandValue = updateHandValue(playerHandValueLowAce, playerNumAces);
         }
+        playerPPType = updatePPType(playerHand);
+        playerAnteType = updateAnteType(playerHand);
 
+        // Display cards
         transition(false, "play");
-        preloadImages();
-        timer = setInterval(displayCards, 700);
-        if (playerHandValue == BLACK_JACK) {
-            isPlayerDone = true;
-            updatePlayerMessage("Black Jack!!");
-        }
-        showActions();
-        document.getElementById("hash").innerHTML = hash;
-        document.getElementById("hashWrapper").style.opacity = 1;
+        preloadPlayerImages();
+        timer = setInterval(displayPlayerCards, 700);
     }
 }
 
-function hit() {
-    let card = getCard();
-    playerHand.push(card);
-    if (isAce(card))
-        playerNumAces++;
-    playerHandValueLowAce = updateHandValueLowAce(playerHandValueLowAce, card);
-    playerHandValue = updateHandValue(playerHandValueLowAce, playerNumAces);
+function placePlayBet() {
+    playerBalance -= anteBet;
+    updateBalance();
 
-    isHit = true;
-    preloadImages();
-    timer = setInterval(displayCards, 200);
-}
-
-function continueHit() {
-    if (playerHandValue > BLACK_JACK) {
-        updatePlayerMessage("Bust!!");
-        endGame();
-    } else if (playerHandValue == BLACK_JACK || playerHandValueLowAce == BLACK_JACK) {
-        updatePlayerMessage("Black Jack!!");
-        endGame();
-    }
-}
-
-function stand() {
-    updatePlayerMessage("");
-    endGame();
-}
-
-function endGame() {
-    document.getElementById("buttonWrapper").style.opacity = document.getElementById("continueWrapper").style.opacity = 0;
-    while (dealerHandValue < 17) {
+    for (let i = 0; i < 3; i++) {
         let dealerCard = getCard();
         dealerHand.push(dealerCard);
-        if (isAce(dealerCard))
-            dealerNumAces++;
-        dealerHandValueLowAce = updateHandValueLowAce(dealerHandValueLowAce, dealerCard);
-        dealerHandValue = updateHandValue(dealerHandValueLowAce, dealerNumAces);
     }
+    dealerPPType = updatePPType(dealerHand);
 
-    endImages = true;
-    preloadImages();
-    timer = setInterval(displayCards, 700);
+    // Display cards
+    document.getElementById("buttonWrapper").style.opacity = 0;
+    document.getElementsByClassName("cards")[0].style.opacity = 0;
+    setTimeout(function () {
+        document.getElementById("buttonWrapper").style.display = "none";
+        document.getElementsByClassName("cards")[0].innerHTML = "";
+        dealerCardsShown = 0;
+        document.getElementsByClassName("cards")[0].style.opacity = 1;
+        // Display cards
+        preloadDealerImages();
+        timer = setInterval(displayDealerCards, 700);
+    }, 500);
 }
 
-function continueEndGame() {
-    if (playerHandValue > BLACK_JACK)
-        updatePlayerMessage("House Wins!!");
-    else if ((playerHandValue > dealerHandValue && playerHandValue <= BLACK_JACK) || (dealerHandValue > BLACK_JACK && playerHandValue <= BLACK_JACK)) {
-        // playerBalance += currentBet * 2;
-        // maxMoney += currentBet;
-        updatePlayerMessage("You Win!!");
-    } else if (playerHandValue == dealerHandValue && playerHandValue <= BLACK_JACK) {
-        //playerBalance += currentBet;
-        updatePlayerMessage("Push! Your bet has been returned.");
+function fold() {
+    document.getElementById("resultMessage").innerText = "";
+    updatePlayerMessage("Fold!!");
+    document.getElementById("buttonWrapper").style.opacity = 0;
+    setTimeout(function () {
+        document.getElementById("buttonWrapper").style.display = "none";
+        document.getElementById("endWrapper").style.display = "flex";
+        setTimeout(function () {
+            document.getElementById("endWrapper").style.opacity = 1;
+        }, 600);
+    }, 600);
+}
+
+function continuePlay() {
+    // Ante/Play calculation
+    if (dealerPPType > playerPPType) {
+        //console.log("dealer better");
+        // no money
+        updatePlayerMessage("You lost!!");
     } else {
-        updatePlayerMessage("Dealer Wins!!");
+        if (getHighestValue(dealerHand) < 12) {
+            //console.log("Jack high or worse");
+            updatePlayerMessage("Your play bet was returned!");
+            addToBalance(anteBet);
+        } else if (dealerPPType > 0 || getHighestValue(dealerHand) > 11) {
+            //console.log("Queen high");
+            if (playerHasBetterHand()) {
+                //console.log("win");
+                updatePlayerMessage("You won!!");
+                addToBalance(anteBet * 3 + anteBet * playerAnteType);
+                if (anteBet * playerAnteType)
+                    updatePlayerMessage(" You won the x" + playerAnteType + " ante bonus.");
+                //console.log("addded bonus");
+            } else {
+                //console.log("lose");
+                // no money
+                updatePlayerMessage("You lost!!");
+            }
+        }
     }
 
+    // Pair Plus calculation
+    if (ppBet > 0 && playerPPType > 0) {
+        updatePlayerMessage(" You won the x" + playerPPType + " pair plus.");
+        addToBalance(ppBet + ppBet * playerPPType);
+    }
     updateBalance();
-    document.getElementById("buttonWrapper").style.display = document.getElementById("continueWrapper").style.display = "none";
     document.getElementById("endWrapper").style.display = "flex";
     document.getElementById("endWrapper").style.opacity = 1;
+}
+
+function playerHasBetterHand() {
+    if (playerPPType > dealerPPType || getHighestValue(playerHand) > getHighestValue(dealerHand))
+        return true;
+    return false;
+}
+
+function addToBalance(money) {
+    playerBalance += money;
+    maxMoney += money;
 }
 
 function goToEnd() {
@@ -148,7 +158,7 @@ function goToEnd() {
         document.getElementById("restartButton").classList.add("secondary");
         document.getElementById("restartButton").onclick = quit;
         document.getElementById("endMessage").innerText = "Continue playing?";
-        //document.getElementById("finalRestart").innerHTML = "Quit";
+
         child = document.createElement('a');
         child.classList.add("button");
         child.onclick = continueGame;
@@ -157,7 +167,6 @@ function goToEnd() {
         child = document.createElement('h2');
         child.innerText = "Your overall winnings were $" + maxMoney + ".";
     }
-
     document.getElementById("end").insertChildAtIndex(child, 1);
     transition(false, "end");
 }
@@ -173,22 +182,100 @@ function updateQuit() {
     document.getElementById("end").insertChildAtIndex(child, 1);
 }
 
-function showActions() {
-    if (isPlayerDone) {
-        document.getElementById("continueWrapper").style.display = "flex";
-        setTimeout(function () {
-            document.getElementById("continueWrapper").style.opacity = 1;
-        }, 200);
+function displayPlayerCards() {
+    if (dealerCardsShown < 3) {
+        dealerCardsShown++;
+        dealerCards = document.getElementsByClassName("cards")[0];
+        let newImage = document.createElement('img');
+        newImage.src = "assets/images/cards/XX.png";
+        dealerCards.appendChild(newImage);
+        window.getComputedStyle(newImage).opacity;
+        newImage.className += 'shown';
     } else {
-        document.getElementById("buttonWrapper").style.display = "flex";
-        setTimeout(function () {
-            document.getElementById("buttonWrapper").style.opacity = 1;
-        }, 200);
+        if (playerCardsShown == playerHand.length)
+            alert("ERROR: Adding too many player Cards");
+        cardWrapper = document.getElementsByClassName("cards")[1];
+        card = playerHand[playerCardsShown++];
+
+        var newImage = document.createElement('img');
+        newImage.src = "assets/images/cards/" + card + ".png";
+        cardWrapper.appendChild(newImage);
+        window.getComputedStyle(newImage).opacity;
+        newImage.className += 'shown';
+
+        if (playerCardsShown == playerHand.length) {
+            clearInterval(timer);
+            timer = 0;
+
+            // Show the other elements
+            if (playerBalance >= anteBet)
+                document.getElementById("playBet").innerText += " ($" + anteBet + ")";
+            else {
+                updatePlayerMessage("Not enough money to place play bet!");
+                document.getElementById("buttonWrapper").innerHTML = "<a class=\"button secondary\" onclick=\"fold();\">Fold</a>";
+            }
+            setTimeout(function () {
+                document.getElementById("buttonWrapper").style.opacity = 1;
+            }, 200);
+            document.getElementById("hash").innerHTML = hash;
+            document.getElementById("hashWrapper").style.opacity = 1;
+        }
     }
 }
 
+function displayDealerCards() {
+    cardWrapper = document.getElementsByClassName("cards")[0];
+    card = dealerHand[dealerCardsShown++];
+
+    var newImage = document.createElement('img');
+    newImage.src = "assets/images/cards/" + card + ".png";
+    cardWrapper.appendChild(newImage);
+    window.getComputedStyle(newImage).opacity;
+    newImage.className += 'shown';
+
+    if (dealerCardsShown == dealerHand.length) {
+        clearInterval(timer);
+        timer = 0;
+
+        // Show the other elements
+        continuePlay();
+    }
+}
+
+function preloadPlayerImages() {
+    let playerImages = 0;
+    try {
+        // Preload card back
+        var _img = new Image();
+        _img.src = "assets/images/cards/XX.png";
+
+        // Preload player cards
+        while (!(playerImages == playerHand.length)) {
+            var _img = new Image();
+            _img.src = "assets/images/cards/" + playerHand[playerImages++] + ".png";
+        }
+    } catch (e) {}
+}
+
+function preloadDealerImages() {
+    let dealerImages = 0;
+    try {
+        // Preload dealer cards
+        while (!(dealerImages == dealerHand.length)) {
+            var _img = new Image();
+            _img.src = "assets/images/cards/" + dealerHand[dealerImages++] + ".png";
+        }
+    } catch (e) {}
+}
+
 function updatePlayerMessage(message) {
-    document.getElementById("resultMessage").innerHTML = message;
+    if (document.getElementById("resultMessage").innerText != "")
+        document.getElementById("resultMessage").innerText += message;
+    else
+        document.getElementById("resultMessage").innerText = message;
+    setTimeout(function () {
+        document.getElementById("resultMessage").style.opacity = 1;
+    }, 200);
 }
 
 function transition(useNav, nextSection, command) {
@@ -216,59 +303,8 @@ function transition(useNav, nextSection, command) {
     next.classList.add("current");
 }
 
-function displayCards() {
-    let elem, card;
-    if (!(dealerCardsShown == dealerHand.length)) {
-        elem = document.getElementsByClassName("cards")[0];
-        card = dealerHand[dealerCardsShown++];
-    } else if (!(playerCardsShown == playerHand.length)) {
-        elem = document.getElementsByClassName("cards")[1];
-        card = playerHand[playerCardsShown++];
-    } else {
-        return;
-    }
-
-    var e = document.createElement('img');
-    e.src = "assets/images/cards/" + card + ".png";
-    elem.appendChild(e);
-    window.getComputedStyle(e).opacity;
-    e.className += 'shown';
-
-    if (elem.childElementCount > 3) {
-        for (let i = 0; i < elem.childElementCount; i++)
-            elem.getElementsByTagName('img')[i].classList.add("smaller");
-    }
-    if (playerCardsShown + dealerCardsShown == playerHand.length + dealerHand.length) {
-        clearInterval(timer);
-        timer = 0;
-        if (endImages) {
-            endImages = false;
-            continueEndGame();
-        } else if (isHit) {
-            isHit = false;
-            continueHit();
-        }
-    }
-}
-
-function preloadImages() {
-    let playerImages = playerCardsShown;
-    let dealerImages = dealerCardsShown;
-
-    try {
-        while (!(playerImages == playerHand.length) || !(dealerImages == dealerHand.length)) {
-            if (!(playerImages == playerHand.length)) {
-                var _img = new Image();
-                _img.src = "assets/images/cards/" + playerHand[playerImages++] + ".png";
-            } else if (!(dealerImages == dealerHand.length)) {
-                var _img = new Image();
-                _img.src = "assets/images/cards/" + dealerHand[dealerImages++] + ".png";
-            }
-        }
-    } catch (e) {}
-}
-
 function updateAnte() {
+    isAnteValid = false;
     anteBet = parseInt(document.getElementById("anteInput").value);
     // Check for errors
     let error = document.getElementById("anteInputError");
@@ -278,7 +314,7 @@ function updateAnte() {
     } else if (anteBet < MIN_BET) {
         error.innerHTML = "Unable to bet less than the minimum!";
         error.style.display = "block";
-    } else if (anteBet > playerBalance) {
+    } else if (anteBet + ppBet > playerBalance) {
         error.innerHTML = "Unable to bet more than your available balance!";
         error.style.display = "block";
     } else {
@@ -289,18 +325,20 @@ function updateAnte() {
 }
 
 function updatePP() {
+    isPPValid = false;
     ppBet = parseInt(document.getElementById("ppInput").value);
     // Check for errors
     let error = document.getElementById("ppInputError");
     if (!ppBet) {
         document.getElementById("ppInput").value = "";
         isPPValid = true;
+        ppBet = 0;
         error.innerHTML = '';
         error.style.display = "none";
     } else if (ppBet < MIN_BET) {
         error.innerHTML = "Unable to bet less than the minimum!";
         error.style.display = "block";
-    } else if (ppBet > playerBalance) {
+    } else if (anteBet + ppBet > playerBalance) {
         error.innerHTML = "Unable to bet more than your available balance!";
         error.style.display = "block";
     } else {
@@ -316,34 +354,30 @@ function updateBalance() {
 
 function resetValues() {
     maxMoney = 0;
-    isHit = false;
-    endImages = false;
     cardStack = [];
     hash = "";
-    //currentBet = null;
-    anteBet = "0";
-    ppBet = "0";
+    anteBet = 0;
+    ppBet = 0;
     isAnteValid = false;
     isPPValid = false;
-    isPlayerDone = false;
-    playerNumAces = 0;
     playerHand = [];
-    playerHandValueLowAce = 0;
-    playerHandValue = 0;
     playerCardsShown = 0;
-    dealerNumAces = 0;
+    playerAnteType = 0;
+    playerPPType = 0;
     dealerHand = [];
-    dealerHandValueLowAce = 0;
-    dealerHandValue = 0;
     dealerCardsShown = 0;
+    dealerPPType = 0;
 
     // Clear existing cards
     for (let i = 0; i < 2; i++)
         document.getElementsByClassName("cards")[i].innerHTML = "";
+    document.getElementById("buttonWrapper").style.display = "flex";
     document.getElementById("endWrapper").style.opacity = 1;
     document.getElementById("endWrapper").style.display = "none";
     document.getElementById("resultMessage").innerText = "";
     document.getElementById("end").innerHTML = "<h1 id=\"endMessage\" class=\"special\">You Lost!</h1> <a id=\"restartButton\" class= \"button\" onclick=\"startGame();\">Restart</a>"
+    document.getElementById("playBet").innerText = "Bet";
+    document.getElementById("hash").innerHTML = "";
 }
 
 function enterDetector(e) {
@@ -358,6 +392,99 @@ window.onload = function () {
     document.getElementById('ppInput').addEventListener('keyup', enterDetector, false);
 }
 
+function updatePPType(inputHand) {
+    if (isStraight(inputHand) && isFlush(inputHand))
+        return STRAIGHT_FLUSH;
+    else if (isThreeOfAKind(inputHand))
+        return THREE_OF_A_KIND;
+    else if (isStraight(inputHand))
+        return STRAIGHT;
+    else if (isFlush(inputHand))
+        return FLUSH;
+    else if (isPair(inputHand))
+        return PAIR;
+    else
+        return HIGH_CARD;
+}
+
+function updateAnteType(inputHand) {
+    if (isStraight(inputHand) && isFlush(inputHand))
+        return ANTE_STRAIGHT_FLUSH;
+    else if (isThreeOfAKind(inputHand))
+        return ANTE_THREE_OF_A_KIND;
+    else if (isStraight(inputHand))
+        return ANTE_STRAIGHT;
+    else
+        return HIGH_CARD;
+}
+
+function isThreeOfAKind(inputHand) {
+    if (getCardValue(inputHand[0]) == getCardValue(inputHand[1]) && getCardValue(inputHand[1]) == getCardValue(inputHand[2]))
+        return true;
+    return false
+}
+
+function isStraight(inputHand) {
+    let max = Math.max(getCardValue(inputHand[0]), Math.max(getCardValue(inputHand[1]), getCardValue(inputHand[2])));
+    let min = -Math.max(-getCardValue(inputHand[0]), Math.max(-getCardValue(inputHand[1]), -getCardValue(inputHand[2])));
+    let mid = (getCardValue(inputHand[0]) + getCardValue(inputHand[1]) + getCardValue(inputHand[2])) - (max + min);
+
+    if (max - mid == 1 && mid - min == 1)
+        return true;
+    else {
+        let max = Math.max(getCardValueLowAce(inputHand[0]), Math.max(getCardValueLowAce(inputHand[1]), getCardValueLowAce(inputHand[2])));
+        let min = -Math.max(-getCardValueLowAce(inputHand[0]), Math.max(-getCardValueLowAce(inputHand[1]), -getCardValueLowAce(inputHand[2])));
+        let mid = (getCardValueLowAce(inputHand[0]) + getCardValueLowAce(inputHand[1]) + getCardValueLowAce(inputHand[2])) - (max + min);
+
+        if (max - mid == 1 && mid - min == 1)
+            return true;
+    }
+    return false;
+}
+
+function isFlush(inputHand) {
+    if (inputHand[0].substring(inputHand[0].length - 1) == inputHand[1].substring(inputHand[1].length - 1) && inputHand[1].substring(inputHand[1].length - 1) == inputHand[2].substring(inputHand[2].length - 1))
+        return true;
+    return false
+}
+
+function isPair(inputHand) {
+    for (let i = 0; i < inputHand.length; i++) {
+        for (let j = 0; j < inputHand.length; j++) {
+            if (i != j && getCardValue(inputHand[i]) == getCardValue(inputHand[j]))
+                return true;
+        }
+    }
+    return false;
+}
+
+function openCredits() {
+    document.getElementById("creditsLink").innerHTML = "<a onclick=\"goBack();\">Return</a>";
+    origin = document.getElementsByClassName("current")[0].id;
+    transition(true, "credits");
+}
+
+function goBack() {
+    document.getElementById("creditsLink").innerHTML = "<a onclick=\"openCredits();\">Credits</a>";
+    transition(true, origin);
+    origin = "";
+}
+
+function getHighestValue(hand) {
+    let returnValue = 0;
+    for (let i = 0; i < hand.length; i++) {
+        if (getCardValue(hand[i]) > returnValue)
+            returnValue = getCardValue(hand[i]);
+    }
+    return returnValue;
+}
+
+function updateHash(random) {
+    for (var i = 0; i < 2; i++)
+        hash += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
+    return random;
+}
+
 function getCardValue(card) {
     if (card.length == 3)
         return 10;
@@ -366,17 +493,22 @@ function getCardValue(card) {
     if (face)
         return face;
     else {
-        if (card.substring(0, 1) == "A")
-            return 1;
-        else
-            return 10;
+        if (card.substring(0, 1) == "J")
+            return 11;
+        else if (card.substring(0, 1) == "Q")
+            return 12;
+        else if (card.substring(0, 1) == "K")
+            return 13;
+        else if (card.substring(0, 1) == "A")
+            return 14;
     }
 }
 
-function updateHash(random) {
-    for (var i = 0; i < 2; i++)
-        hash += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
-    return random;
+function getCardValueLowAce(card) {
+    if (getCardValue(card) == 14)
+        return 1;
+    else
+        return getCardValue(card);
 }
 
 function getCard() {
@@ -415,33 +547,6 @@ function getSuit() {
         return "H";
     else
         return "C";
-}
-
-function isAce(card) {
-    return card.indexOf("A") != -1;
-}
-
-function updateHandValue(handValueLowAce, numAces) {
-    if (numAces > 0 && handValueLowAce <= BLACK_JACK - 10)
-        handValueLowAce += 10;
-
-    return handValueLowAce;
-}
-
-function updateHandValueLowAce(handValue, card) {
-    return handValue + getCardValue(card);
-}
-
-function openCredits() {
-    document.getElementById("creditsLink").innerHTML = "<a onclick=\"goBack();\">Return</a>";
-    origin = document.getElementsByClassName("current")[0].id;
-    transition(true, "credits");
-}
-
-function goBack() {
-    document.getElementById("creditsLink").innerHTML = "<a onclick=\"openCredits();\">Credits</a>";
-    transition(true, origin);
-    origin = "";
 }
 
 // Taken from Stack Overflow

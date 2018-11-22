@@ -49,7 +49,7 @@
             <label>Pair Plus Bet Amount</label>
             <h5 id="ppInputError" class="error"></h5>
         </div>
-        <a class="button secondary" onclick="placeBet();">Place Bet</a>
+        <a class="button secondary" onclick="placeBets();">Place Bet</a>
     </section>
 
     <section id="play" class="flex hidden hasNavbar">
@@ -67,11 +67,8 @@
             <h1 id="resultMessage"></h1>
         </div>
         <div id="buttonWrapper">
-            <a class="button minimized" onclick="hit();">Hit</a>
-            <a class="button secondary minimized" onclick="stand();">Stand</a>
-        </div>
-        <div id="continueWrapper">
-            <a class="button" onclick="endGame();">Continue</a>
+            <a id="playBet" class="button minimized" onclick="placePlayBet();">Bet</a>
+            <a class="button secondary minimized" onclick="fold();">Fold</a>
         </div>
         <div id="endWrapper">
             <a class="button" onclick="goToEnd();">Continue</a>
