@@ -35,6 +35,7 @@ var dealerPPType;
 
 function startGame() {
     playerBalance = 1000;
+    maxMoney = 0;
     transition(true, "bet", resetValues);
 }
 
@@ -353,7 +354,6 @@ function updateBalance() {
 }
 
 function resetValues() {
-    maxMoney = 0;
     cardStack = [];
     hash = "";
     anteBet = 0;
