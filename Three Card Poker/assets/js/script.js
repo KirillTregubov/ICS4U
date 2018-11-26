@@ -110,11 +110,7 @@ function continuePlay() {
         // no money
         updatePlayerMessage("You lost!!");
     } else {
-        if (getHighestValue(dealerHand) < 12) {
-            //console.log("Jack high or worse");
-            updatePlayerMessage("Your play bet was returned!");
-            addToBalance(anteBet);
-        } else if (dealerPPType > 0 || getHighestValue(dealerHand) > 11) {
+        if (dealerPPType > 0 || getHighestValue(dealerHand) > 11) {
             //console.log("Queen high");
             if (playerHasBetterHand()) {
                 //console.log("win");
@@ -128,12 +124,18 @@ function continuePlay() {
                 // no money
                 updatePlayerMessage("You lost!!");
             }
+        } else if (getHighestValue(dealerHand) < 12) {
+            //console.log("Jack high or worse");
+            updatePlayerMessage("Your play bet was returned!");
+            addToBalance(anteBet);
+        } else {
+            updatePlayerMessage("ERROR");
         }
     }
 
     // Pair Plus calculation
     if (ppBet > 0 && playerPPType > 0) {
-        updatePlayerMessage(" You won the x" + playerPPType + " pair plus.");
+        updatePlayerMessage(" You won the " + playerPPType + "x pair plus.");
         addToBalance(ppBet + ppBet * playerPPType);
     }
     updateBalance();
