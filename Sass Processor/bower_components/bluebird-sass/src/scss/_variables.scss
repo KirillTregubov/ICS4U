@@ -1,0 +1,75 @@
+/* 
+typography elements 
+*/
+$anchor: #3498db !default;
+
+/* 
+grid variables 
+*/
+$wrapper: 80rem !default;
+$gutter: 0.5rem !default;
+$row-padding: 0.5rem !default;
+$grid: 5 !default;
+
+/* 
+off canvas variables 
+*/
+$off-canvas-width: 260px;
+$off-canvas-bg: #333;
+$off-canvas-color: #fff;
+$off-canvas-hamburger: #ddd;
+$off-canvas-hamburger-bg: rgba(255,255,255,0.2);
+
+/* 
+media query breakpoints 
+*/
+$mq-sm: 35.5rem;
+$mq-md: 48rem;
+$mq-lg: 64rem;
+$mq-xl: 80rem;
+
+/* 
+default border radius 
+*/
+$radius: 3px;
+
+/*
+navbar 
+*/
+$navbar-bg: #353535 !default;
+$navbar-color: #fff;
+$navbar-lh: 3.5rem;
+
+/* 
+form colors 
+*/
+$form-element-border: #efefef;
+$form-element-background: #f7f7f7;
+
+/*
+default buttons
+*/
+$buttons: 	(default #cccccc),
+			(primary #2ecc71),
+			(secondary #3498db),
+			(danger #e74c3c);
+
+/* 
+default button values 
+*/
+$btn-color: #fff;
+
+/*
+button padding
+*/
+$btn-padding: 0.5rem 1rem;
+$btn-sm-padding: 0.15rem .65rem;
+$btn-md-padding: 0.5rem 1rem;
+$btn-lg-padding: 1rem 1.5rem;
+
+/* 
+default button classes 
+*/
+$btn-class-sm: 'btn-sm';
+$btn-class-md: 'btn-md';
+$btn-class-lg: 'btn-lg';

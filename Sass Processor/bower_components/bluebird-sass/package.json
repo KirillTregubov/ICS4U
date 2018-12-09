@@ -1,0 +1,22 @@
+{
+  "name": "bluejay",
+  "version": "1.0.0",
+  "description": "SASS Mixins to develop mobile-first CSS",
+  "main": "sass/bluebird.scss",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalebheitzman/bluebird.git"
+  },
+  "keywords": [
+    "css",
+    "sass",
+    "responsive",
+    "mixins"
+  ],
+  "author": "Kaleb Heitzman <kalebheitzman@gmail.com> (http://github.com/kalebheitzman)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kalebheitzman/bluebird/issues"
+  },
+  "homepage": "https://github.com/kalebheitzman/bluebird#readme"
+}

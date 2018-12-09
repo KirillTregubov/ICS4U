@@ -1,0 +1,55 @@
+/// Extend one or more modifiers of a module to create a new modifier
+/// combining the ones you pass
+///
+/// @author [@esr360](http://twitter.com/esr360)
+/// @group Synergy
+/// @access public
+///
+/// @param {string|list} $modifiers [null] - The modifiers which you wish to combine
+/// @param {string} $parent [null] - The parent module if not current one
+/// @param {bool} $core [false] - Extend the core '.module' styles?
+///
+/// @example
+///
+///     @include module(button) {
+///
+///         @include modifier('round')   {...}
+///         @include modifier('large')   {...}
+///         @include modifier('success') {...}
+///
+///         @include modifier('primary') {
+///             @include extend(('round', 'large', 'success'));
+///         }
+///
+///     }
+///
+///     <div class="button-primary">...</div>
+@mixin extend($modifiers: null, $parent: null, $core: false) {
+
+    @if $core or not $modifiers {
+        @extend .#{$parent};
+    }
+
+    @each $modifier in $modifiers {
+        @if type-of($modifier) == string {
+            $selector: if(
+                $parent, $parent, $module
+            );
+            @extend [class*="#{$selector}#{$modifier-glue}"][class*="#{$modifier-glue}#{$modifier}"];
+        } @else if type-of($modifier) == list {
+            $selectors: if(
+                $parent, ('[class*="#{$parent}#{$modifier-glue}"]'), ('[class*="#{$module}#{$modifier-glue}"]')
+            );
+            @each $item in $modifier {
+                $selectors: join($selectors, '[class*="#{$modifier-glue}#{$item}"]', comma);
+            }
+            @extend #{$selectors};
+        }
+    }
+    
+}
+
+// Alias for extending entire modules
+@mixin _module($module, $modifiers: null, $core: true) {
+    @include extend($parent: $module, $modifiers: $modifiers, $core: $core);
+}

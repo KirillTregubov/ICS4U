@@ -1,0 +1,52 @@
+[class^="btn"] {
+	@include border-radius($radius);
+	border: 0;
+	color: $btn-color;
+	padding: $btn-padding;
+}
+
+// small button
+@mixin button-sm() {
+	.#{$btn-class-sm} {
+		font-size: .85rem;
+  		padding: $btn-sm-padding;
+	}
+}
+
+// medium button
+@mixin button-md() {
+	.#{$btn-class-md} {
+  		font-size: 1.4rem;
+  		padding: $btn-md-padding;
+	}
+}
+
+// large button
+@mixin button-lg() {
+	.#{$btn-class-lg} {
+  		font-size: 2rem;
+  		padding: $btn-lg-padding;
+	}
+}
+
+// button size classes
+@include button-sm();
+@include button-md();
+@include button-lg();
+
+// get each button
+@each $button in $buttons {
+
+	.btn-#{nth($button,1)} {
+		background: nth($button,2);
+
+		&:hover {
+	  		background:lighten(nth($button,2),8%);
+	  		transition: all 0.15s ease;
+		}
+		&:active {
+	  		background:lighten(nth($button,2),12%);
+		}
+	}
+
+}

@@ -1,0 +1,27 @@
+{
+  "name": "ivan-chkv.bootstrap-dropdowns-enhancement-dist",
+  "description": "Ready to use Bootstrap Dropdowns Enhancement",
+  "keywords": [
+    "bootstrap",
+    "dropdowns",
+    "enhancement"
+  ],
+  "homepage": "http://behigh.github.io/bootstrap_dropdowns_enhancement/",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "behigh"
+    }
+  ],
+  "version": "3.1.1",
+  "_release": "3.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.1.1",
+    "commit": "fcc989d68836919e4c0e17164c7326019ba661c1"
+  },
+  "_source": "https://github.com/ivan-chkv/bootstrap-dropdowns-enhancement-dist.git",
+  "_target": "3.1.1",
+  "_originalSource": "ivan-chkv.bootstrap-dropdowns-enhancement-dist"
+}

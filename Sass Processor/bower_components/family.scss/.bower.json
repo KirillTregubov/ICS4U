@@ -1,0 +1,41 @@
+{
+  "name": "family.scss",
+  "version": "1.0.8",
+  "description": "family.scss is a set of Sass mixins which will help you to manage the style of :nth-child'ified elements, in an easy way",
+  "main": "source/src/_family.scss",
+  "authors": [
+    "Lucas Bonomi <@LukyVj> (http://lucasbonomi.com)"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "sass",
+    "scss",
+    "family",
+    "family.scss",
+    "nth-child",
+    "child",
+    "nth",
+    "eq",
+    "nth-of-type",
+    "nth-of-child",
+    "css",
+    "selector"
+  ],
+  "homepage": "https://github.com/LukyVj/family.scss",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.0.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.8",
+    "commit": "0be611511806283feac62ae52e4266deaa33bf4c"
+  },
+  "_source": "https://github.com/LukyVj/family.scss.git",
+  "_target": "*",
+  "_originalSource": "family.scss"
+}

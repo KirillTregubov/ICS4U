@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "../sass/style.css",
+	"sources": [
+		"../sass/style.scss"
+	],
+	"sourcesContent": [
+		"$bg: #ffffff;\r\n\r\nbody {\r\n    background-color: $bg;\r\n    font-size: 1em;\r\n}\r\n"
+	],
+	"mappings": ";AAEA,AAAA,IAAI,CAAC;EACD,gBAAgB,EAHf,OAAO;EAIR,SAAS,EAAE,GAAI,GAClB",
+	"names": []
+}

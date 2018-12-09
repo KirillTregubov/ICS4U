@@ -1,0 +1,28 @@
+{
+  "name": "cssowl",
+  "version": "1.3.1",
+  "ignore": [
+    "**/.*",
+    "Gruntfile.coffee",
+    "package.json",
+    "assets",
+    "tools",
+    "test"
+  ],
+  "main": [
+    "lib/less/cssowl.less",
+    "lib/sass/cssowl.sass",
+    "lib/scss/cssowl.scss",
+    "lib/styl/cssowl.styl"
+  ],
+  "homepage": "https://github.com/owl-stars/cssowl",
+  "_release": "1.3.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.3.1",
+    "commit": "fc7cc95503ba4145f2d376fd997dab9dff08940f"
+  },
+  "_source": "https://github.com/owl-stars/cssowl.git",
+  "_target": "*",
+  "_originalSource": "cssowl"
+}

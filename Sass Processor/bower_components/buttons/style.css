@@ -1,0 +1,27 @@
+/* 
+
+	STYLE.CSS
+	Oliver Pope
+	
+*/
+
+/* COMMON */
+html { font: 400 1em "Helvetica Neue", "Roboto", sans-serif; margin: 0; color: #11100F; }
+body { margin: 0; }
+h1, h2, h3, h4, h5, h6, b, strong { font-weight: 500; }
+h3 { font-size: 1.3em; padding: 1em 0; }
+a { color: #338FFB; text-decoration: none; } a:hover { text-decoration: underline; }
+
+/* HEADER */
+header { background: #FAE9C3; padding: 4em 5%; }
+.title { margin: 0; font-weight: 500; font-size: 2.5em; }
+.subtitle { margin: .25em 0; font-weight: 200; font-size: 1.5em } .subtitle a { color: #11100F; }
+
+
+/* CONTENT */
+#content { margin: 2em 5%; }
+
+/* FOOTER */
+footer { padding: 4em 5%; margin: 0; }
+.twitter { display: inline-block; }
+.code { padding: 0 .5em; display: inline-block; color: #4E4E4E; }

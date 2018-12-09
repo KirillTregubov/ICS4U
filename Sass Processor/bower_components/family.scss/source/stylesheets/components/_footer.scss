@@ -1,0 +1,83 @@
+.footer-section {
+  width: 100%;
+  padding-bottom: 2em;
+  background: $al-black;
+  color: #fff;
+  position: relative;
+  float: left;
+
+  p {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    float: left;
+    text-align: center;
+    color: #496f92;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    margin: 0;
+    font-weight: 800;
+
+    a {
+      color: $al-blue-light;
+      text-decoration: none;
+      font-weight: bold;
+
+      &:hover {
+        color: $al-pink-dark;
+      }
+    }
+
+    &.version {
+      font-size: 0.65em;
+    }
+  }
+
+  .share{
+    width: 100%;
+    margin: 40px auto 0;
+    float: left;
+    height: 100px;
+    float: left;
+    line-height: 0;
+    text-align: center;
+
+    a {
+      display: inline-block;
+      padding: 0;
+      margin: 0;
+      border-bottom: none !important;
+      position: relative;
+      transition: transform .3s ease;
+
+      &:after {
+        position: absolute;
+        display: block;
+
+        content: 'Spread the word';
+        transform: translateY(-20px) translateX(-50%);
+        color: #55ACEE;
+        opacity: 0;
+        transition: transform .3s ease, opacity .3s ease;
+        width: 200px;
+        text-align: center;
+        left: 50%;
+      }
+
+      &:hover {
+        transform: scale(.9) translateY(-5px);
+
+        &:after {
+          transform: translateY(0) translateX(-50%) scale(1.1);
+          opacity: 1;
+        }
+      }
+    }
+
+    img {
+      max-width: 80px;
+      margin-top: -10px;
+    }
+  }
+}

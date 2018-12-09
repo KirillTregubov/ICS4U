@@ -1,0 +1,25 @@
+{
+  "name": "spice-sass",
+  "description": "Add a little spice to your UI",
+  "main": "src/_spice.scss",
+  "license": "MIT",
+  "ignore": [
+    "dev",
+    "docs",
+    "node_modules",
+    "*.md",
+    "gulpfile.js",
+    "package.json",
+    "index.js"
+  ],
+  "homepage": "https://github.com/spice-sass/spice",
+  "_release": "1f8c0b17dd",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "1f8c0b17dd2f252d974e85b67827cab1784913ca"
+  },
+  "_source": "https://github.com/spice-sass/spice.git",
+  "_target": "*",
+  "_originalSource": "spice-sass"
+}

@@ -1,0 +1,32 @@
+{
+  "name": "buttons.css",
+  "version": "1.0.4",
+  "main": "buttons.min.css",
+  "author": "Oliver Pope",
+  "ignore": [
+    "LICENSE",
+    ".c9",
+    "component.json",
+    "package.json",
+    "test.html",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/owebboy/buttons",
+  "authors": [
+    "Oliver Pope <opope@me.com>"
+  ],
+  "description": "lots of fun buttons",
+  "moduleType": [
+    "globals",
+    "yui"
+  ],
+  "keywords": [
+    "buttons",
+    "stylesheet"
+  ],
+  "license": "MIT"
+}

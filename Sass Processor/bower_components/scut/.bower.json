@@ -1,0 +1,45 @@
+{
+  "name": "Scut",
+  "version": "1.4.0",
+  "homepage": "http://davidtheclark.github.io/scut/",
+  "authors": [
+    "David Clark <david.dave.clark@gmail.com>"
+  ],
+  "description": "A collection of Sass utilities to ease and improve our implementations of common style-code patterns.",
+  "main": "dist/_scut.scss",
+  "keywords": [
+    "SCSS",
+    "Sass",
+    "style"
+  ],
+  "license": "MIT",
+  "ignore": [
+    ".*",
+    "*.md",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "docs",
+    "test",
+    "tests",
+    "Gruntfile.coffee",
+    "gulpfile.js",
+    "package.json",
+    "npm-debug.log",
+    "lib",
+    "scut.gemspec",
+    "sache.json"
+  ],
+  "devDependencies": {
+    "normalize-scss": "~2.1.2"
+  },
+  "_release": "1.4.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.4.0",
+    "commit": "dc52c8e527eebe1204c248ea2888db510bb3a0c9"
+  },
+  "_source": "https://github.com/davidtheclark/scut.git",
+  "_target": "*",
+  "_originalSource": "scut"
+}

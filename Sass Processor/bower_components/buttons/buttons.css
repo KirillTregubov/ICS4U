@@ -1,0 +1,415 @@
+/* 
+
+	BUTTONS.CSS
+
+*/
+/* GLOBAL BUTTON CLASS */
+.btn {
+  display: inline-block;
+  margin: .2em;
+  text-decoration: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+/* INDUSTRIAL */
+[class*=industrial] {
+  padding: 1em;
+  border: 2px solid;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  font-weight: 500;
+  transition: .5s background;
+  -webkit-transition: 0.5s background;
+}
+
+.industrial-red {
+  color: #FF5749;
+  border-color: #ff5749;
+}
+
+.industrial-blue {
+  color: #338FFB;
+  border-color: #338ffb;
+}
+
+.industrial-green {
+  color: #11CD29;
+  border-color: #11cd29;
+}
+
+.industrial-black {
+  color: #11100F;
+  border-color: #11100f;
+}
+
+[class*=industrial]:hover {
+  color: white;
+}
+
+.industrial-red:hover {
+  background: #FF5749;
+  border-color: #ff5749;
+}
+
+.industrial-blue:hover {
+  background: #338FFB;
+  border-color: #338ffb;
+}
+
+.industrial-green:hover {
+  background: #11CD29;
+  border-color: #11cd29;
+}
+
+.industrial-black:hover {
+  background: #11100F;
+  border-color: #11100f;
+}
+
+/* YOSEMITE */
+[class*=yosemite] {
+  padding: 1em 1.3em;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  color: #fff;
+  font-weight: 500;
+  transition: .5s all;
+  -webkit-transition: 0.5s all;
+}
+
+.yosemite-red {
+  background: #FF5749;
+  border: 2px solid #b41814;
+}
+
+.yosemite-yellow {
+  background: #EED15A;
+  border: 2px solid #bda02e;
+}
+
+.yosemite-green {
+  background: #11CD29;
+  border: 2px solid #4d8b2a;
+}
+
+.yosemite-gray {
+  background: #CECECE;
+  border: 2px solid #666;
+  color: #666666 !important;
+}
+
+[class*=yosemite]:hover {
+  background: #fff;
+  color: #666666 !important;
+}
+
+/* UPPERCASED */
+[class*=uppercased] {
+  padding: 1em;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  transition: .5s all;
+  -webkit-transition: 0.5s all;
+}
+
+.uppercased-red {
+  background: #FF5749;
+  border: 2px solid #FF5749;
+  color: white;
+}
+
+.uppercased-blue {
+  background: #338FFB;
+  border: 2px solid #338FFB;
+  color: white;
+}
+
+.uppercased-green {
+  background: #11CD29;
+  border: 2px solid #11CD29;
+  color: white;
+}
+
+.uppercased-black {
+  background: #11100F;
+  border: 2px solid #11100F;
+  color: white;
+}
+
+[class*=uppercased]:hover {
+  background: white;
+}
+
+.uppercased-red:hover {
+  color: #FF5749;
+  border-color: #ff5749;
+}
+
+.uppercased-blue:hover {
+  color: #338FFB;
+  border-color: #338ffb;
+}
+
+.uppercased-green:hover {
+  color: #11CD29;
+  border-color: #11cd29;
+}
+
+.uppercased-black:hover {
+  color: #11100F;
+  border-color: #11100f;
+}
+
+/* SHADOWED */
+[class*=shadowed] {
+  padding: 1em;
+  font-weight: 500;
+  transition: .5s all;
+  -webkit-transition: 0.5s all;
+}
+
+.shadowed-red {
+  background: #FF5749;
+  border: 2px solid #FF5749;
+  color: white;
+}
+
+.shadowed-blue {
+  background: #338FFB;
+  border: 2px solid #338FFB;
+  color: white;
+}
+
+.shadowed-green {
+  background: #11CD29;
+  border: 2px solid #11CD29;
+  color: white;
+}
+
+.shadowed-black {
+  background: #11100F;
+  border: 2px solid #11100F;
+  color: white;
+}
+
+.shadowed-red:hover {
+  -webkit-box-shadow: 0 0 0 5px #FF5749;
+  box-shadow: 0 0 0 5px #ff5749;
+}
+
+.shadowed-blue:hover {
+  -webkit-box-shadow: 0 0 0 5px #338FFB;
+  box-shadow: 0 0 0 5px #338ffb;
+}
+
+.shadowed-green:hover {
+  -webkit-box-shadow: 0 0 0 5px #11CD29;
+  box-shadow: 0 0 0 5px #11cd29;
+}
+
+.shadowed-black:hover {
+  -webkit-box-shadow: 0 0 0 5px #11100F;
+  box-shadow: 0 0 0 5px #11100f;
+}
+
+/* GRAYSCALE */
+[class*=grayscale] {
+  padding: 1em;
+  font-weight: 500;
+  transition: .5s all;
+  -webkit-transition: 0.5s all;
+}
+
+.grayscale-gray-1 {
+  background: #999;
+  border: 2px solid #999;
+  color: white;
+}
+
+.grayscale-gray-2 {
+  background: #4E4E4E;
+  border: 2px solid #4E4E4E;
+  color: white;
+}
+
+.grayscale-gray-3 {
+  background: #282828;
+  border: 2px solid #282828;
+  color: white;
+}
+
+.grayscale-black {
+  background: #000;
+  border: 2px solid #000;
+  color: white;
+}
+
+[class*=grayscale]:hover {
+  background: #fff;
+  color: #111111;
+}
+
+/* FANCY */
+[class*=fancy] {
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 1.5em;
+  color: #fff;
+  text-shadow: 0 0 5px #11100F;
+  border: 2px solid #11100F;
+  font-weight: 500;
+  transition: .5s all;
+  -webkit-transition: 0.5s all;
+}
+
+[class*=fancy]:hover {
+  color: #11100f;
+}
+
+.fancy-red {
+  background: -webkit-gradient(linear, left top, left bottom, from(#e98981), to(#ff5749));
+  background: -webkit-linear-gradient(#e98981, #ff5749);
+  background: linear-gradient(#e98981, #ff5749);
+}
+
+.fancy-blue {
+  background: -webkit-gradient(linear, left top, left bottom, from(#a8cffd), to(#338ffb));
+  background: -webkit-linear-gradient(#a8cffd, #338ffb);
+  background: linear-gradient(#a8cffd, #338ffb);
+}
+
+.fancy-green {
+  background: -webkit-gradient(linear, left top, left bottom, from(#77e285), to(#11cd29));
+  background: -webkit-linear-gradient(#77e285, #11cd29);
+  background: linear-gradient(#77e285, #11cd29);
+}
+
+.fancy-gray {
+  background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#999999));
+  background: -webkit-linear-gradient(#cccccc, #999999);
+  background: linear-gradient(#cccccc, #999999);
+}
+
+/* SLEEK */
+[class*=sleek] {
+  padding: 1em;
+  font-weight: 500;
+  transition: .5s all;
+  -webkit-transition: .5s all;
+  background: #11100f;
+}
+
+.sleek-red {
+  border-top: 2px solid #FF5749;
+  color: white;
+}
+
+.sleek-red:hover {
+  background: #ff5749;
+}
+
+.sleek-blue {
+  border-top: 2px solid #338FFB;
+  color: white;
+}
+
+.sleek-blue:hover {
+  background: #338ffb;
+}
+
+.sleek-green {
+  border-top: 2px solid #11CD29;
+  color: white;
+}
+
+.sleek-green:hover {
+  background: #11cd29;
+}
+
+.sleek-yellow {
+  border-top: 2px solid #EED15A;
+  color: white;
+}
+
+.sleek-yellow:hover {
+  background: #eed15a;
+}
+
+/* LONG-SHADOW */
+[class*=long-shadow] {
+  padding: 1em;
+  font-weight: 500;
+  color: #fff;
+  -webkit-transition: 0.3s all;
+          transition: 0.3s all;
+}
+
+[class*=long-shadow]:hover {
+  -webkit-box-shadow: 0 1px 1px 0 #cccccc, 0 2px 2px 0 #cccccc, 0 3px 3px 0 #cccccc, 0 4px 4px 0 #cccccc, 0 5px 5px 0 #cccccc, 0 6px 6px 0 #cccccc, 0 7px 7px 0 #cccccc, 0 8px 8px 0 #cccccc, 0 9px 9px 0 #cccccc, 0 10px 10px 0 #cccccc, 0 11px 11px 0 #cccccc;
+          box-shadow: 0 1px 1px 0 #cccccc, 0 2px 2px 0 #cccccc, 0 3px 3px 0 #cccccc, 0 4px 4px 0 #cccccc, 0 5px 5px 0 #cccccc, 0 6px 6px 0 #cccccc, 0 7px 7px 0 #cccccc, 0 8px 8px 0 #cccccc, 0 9px 9px 0 #cccccc, 0 10px 10px 0 #cccccc, 0 11px 11px 0 #cccccc;
+}
+
+.long-shadow-red {
+  background: #ff5749;
+}
+
+.long-shadow-blue {
+  background: #338ffb;
+}
+
+.long-shadow-green {
+  background: #11cd29;
+}
+
+.long-shadow-black {
+  background: #11100f;
+}
+
+/* GLASS */
+[class*=glass] {
+  padding: 1em;
+  font-weight: 500;
+  color: #000;
+  border: 1px #000 solid;
+  -webkit-transition: .5s all;
+          transition: .5s all;
+}
+
+.glass-red {
+  background: rgba(255, 87, 73, 0.75);
+}
+
+.glass-red:hover {
+  background: #ff5749;
+}
+
+.glass-blue {
+  background: rgba(51, 142, 251, 0.75);
+}
+
+.glass-blue:hover {
+  background: #338ffb;
+}
+
+.glass-green {
+  background: rgba(16, 205, 40, 0.75);
+}
+
+.glass-green:hover {
+  background: #11cd29;
+}
+
+.glass-black {
+  background: rgba(17, 16, 15, 0.75);
+  color: #fff !important;
+}
+
+.glass-black:hover {
+  background: #11100F;
+  color: #fff !important;
+}
