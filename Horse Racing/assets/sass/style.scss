@@ -1,6 +1,95 @@
-$bg: #ffffff;
+/*===========================
+	Project:	Tregubov CSS
+	Version:	1.0
+
+	[Table of contents]
+
+    01. Variables
+    02. Mixins
+	03. Layoutc
+	05. Typography
+	04. Preloader
+
+
+	04. Header
+	05. Navigation
+	06. Mobile Menu
+	07. Light Navigation
+	08. Swiper Sliders
+	09. Parallax Portfolio
+	10. Text Links
+	11. Scroll Down Line
+	12. Portfolio Grid
+	13. Masonry Cards
+	14. Hover List
+	15. CTA
+	16. Entrance
+	17. Page Title
+	18. Justified Gallery
+	19. Portfolio With Background Blur
+	20. Photo Gallery
+	21. Blog
+
+===========================*/
+
+/* Temporary
+===========================*/
+
+
+/* Variables
+===========================*/
+@import "mixins";
+@import "reset";
+$black: #000000;
+$white: #ffffff;
+$dark: #1c1d26;
+
+/* Layout
+===========================*/
+.flex {
+	display: flex;
+}
+
+.flex.center {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
 
 body {
-    background-color: $bg;
-    font-size: 1em;
+	background-color: $dark;
+	font-family: "Eina03", sans-serif;
+}
+
+section {
+	height: 100%;
+	width: 100%;
+	display: none;
+	background-color: $dark;
+	color: $white;
+}
+
+/* Preloader
+===========================*/
+@include font-face(Eina03, fonts/Eina03-Light, 100, normal, ttf);
+@include font-face(Eina03, fonts/Eina03-Regular, 400, normal, ttf);
+@include font-face(Eina03, fonts/Eina03-SemiBold, 600, normal, ttf);
+@include font-face(Eina03, fonts/Eina03-Bold, 800, normal, ttf);
+
+
+/* Preloader
+===========================*/
+.preloader-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: $dark;
+	z-index: 1;
+}
+
+.preloader-wrapper img {
+	position: absolute;
 }
