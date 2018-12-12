@@ -5,10 +5,12 @@
 	[Table of contents]
 
     01. Variables
-    02. Mixins
+    02. Reset Styles
 	03. Layout
-	05. Typography
-	04. Preloader
+	04. Typography
+	05. Preloader
+	06. Animations
+
 
 
 	04. Header
@@ -39,14 +41,14 @@
 /* Variables
 ===========================*/
 @import "mixins";
-@import "reset";
 $black: #000000;
 $white: #ffffff;
 $dark: #1c1d26;
+$primary: firebrick;
+$bg: $dark;
 
-/* Mixins
+/* Reset Styles
 ===========================*/
-@import "mixins";
 @import "reset";
 
 /* Layout
@@ -63,7 +65,7 @@ $dark: #1c1d26;
 }
 
 body {
-	background-color: $dark;
+	background-color: $bg;
 	font-family: "Eina03", sans-serif;
 }
 
@@ -71,7 +73,7 @@ section {
 	height: 100%;
 	width: 100%;
 	display: none;
-	background-color: $dark;
+	background-color: $bg;
 	color: $white;
 }
 
@@ -95,10 +97,29 @@ section {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: $dark;
+	background-color: $bg;
 	z-index: 1;
+}
+
+.preloader-wrapper::after {
+	content: '';
+	width: 50px;
+	height: 50px;
+	position: fixed;
+	left: calc(50% - 25px);
+	top: calc(50% - 25px);
+	border-radius: 50%;
+	border: 1.5px solid $primary;
+	border-right-color: $bg;
+	-webkit-animation: rotate-center 1s ease-in-out infinite both;
+	animation: rotate-center 1s ease-in-out infinite both;
+	z-index: 100000;
 }
 
 .preloader-wrapper img {
 	position: absolute;
 }
+
+/* Animations
+===========================*/
+@import "animations";
