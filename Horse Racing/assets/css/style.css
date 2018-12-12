@@ -1,1 +1,156 @@
-html,body,ul,ol{overflow:hidden;margin:0;padding:0}.flex{display:flex}.flex.center{flex-direction:column;align-items:center;justify-content:center;text-align:center}body{background-color:#1c1d26;font-family:"Eina03", sans-serif}section{height:100%;width:100%;display:none;background-color:#1c1d26;color:#fff}@font-face{font-family:"Eina03";font-style:normal;font-weight:100;src:url("../fonts/Eina03-Light.ttf") format("truetype")}@font-face{font-family:"Eina03";font-style:normal;font-weight:400;src:url("../fonts/Eina03-Regular.ttf") format("truetype")}@font-face{font-family:"Eina03";font-style:normal;font-weight:600;src:url("../fonts/Eina03-SemiBold.ttf") format("truetype")}@font-face{font-family:"Eina03";font-style:normal;font-weight:800;src:url("../fonts/Eina03-Bold.ttf") format("truetype")}.preloader-wrapper{position:fixed;top:0;left:0;right:0;bottom:0;background-color:#1c1d26;z-index:1}.preloader-wrapper img{position:absolute}
+/*===========================
+	Project:	Tregubov CSS
+	Version:	1.0
+
+	[Table of contents]
+
+    01. Variables
+    02. Mixins
+	03. Layout
+	05. Typography
+	04. Preloader
+
+
+	04. Header
+	05. Navigation
+	06. Mobile Menu
+	07. Light Navigation
+	08. Swiper Sliders
+	09. Parallax Portfolio
+	10. Text Links
+	11. Scroll Down Line
+	12. Portfolio Grid
+	13. Masonry Cards
+	14. Hover List
+	15. CTA
+	16. Entrance
+	17. Page Title
+	18. Justified Gallery
+	19. Portfolio With Background Blur
+	20. Photo Gallery
+	21. Blog
+
+===========================*/
+/* Temporary
+===========================*/
+/* Variables
+===========================*/
+html,
+body,
+ul,
+ol {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mixins
+===========================*/
+html,
+body,
+ul,
+ol {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Layout
+===========================*/
+.flex {
+  display: flex;
+}
+
+.flex.center {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+body {
+  background-color: #1c1d26;
+  font-family: "Eina03", sans-serif;
+}
+
+section {
+  height: 100%;
+  width: 100%;
+  display: none;
+  background-color: #1c1d26;
+  color: #ffffff;
+}
+
+/* Typography
+===========================*/
+@font-face {
+  font-family: "Astronout";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Astronout.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Eina03";
+  font-style: normal;
+  font-weight: 200;
+  src: url("../fonts/Eina03-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Eina03";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Eina03-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Eina03";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/Eina03-RegularItalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Eina03";
+  font-style: normal;
+  font-weight: 600;
+  src: url("../fonts/Eina03-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Eina03";
+  font-style: italic;
+  font-weight: 600;
+  src: url("../fonts/Eina03-SemiBoldItalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Eina03";
+  font-style: normal;
+  font-weight: 800;
+  src: url("../fonts/Eina03-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Eina03";
+  font-style: italic;
+  font-weight: 800;
+  src: url("../fonts/Eina03-BoldItalic.ttf") format("truetype");
+}
+
+/* Preloader
+===========================*/
+.preloader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1c1d26;
+  z-index: 1;
+}
+
+.preloader-wrapper img {
+  position: absolute;
+}

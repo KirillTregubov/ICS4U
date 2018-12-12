@@ -6,7 +6,7 @@
 
     01. Variables
     02. Mixins
-	03. Layoutc
+	03. Layout
 	05. Typography
 	04. Preloader
 
@@ -44,6 +44,11 @@ $black: #000000;
 $white: #ffffff;
 $dark: #1c1d26;
 
+/* Mixins
+===========================*/
+@import "mixins";
+@import "reset";
+
 /* Layout
 ===========================*/
 .flex {
@@ -70,12 +75,16 @@ section {
 	color: $white;
 }
 
-/* Preloader
+/* Typography
 ===========================*/
-@include font-face(Eina03, fonts/Eina03-Light, 100, normal, ttf);
+@include font-face(Astronout, fonts/Astronout, 400, normal, ttf);
+@include font-face(Eina03, fonts/Eina03-Light, 200, normal, ttf);
 @include font-face(Eina03, fonts/Eina03-Regular, 400, normal, ttf);
+@include font-face(Eina03, fonts/Eina03-RegularItalic, 400, italic, ttf);
 @include font-face(Eina03, fonts/Eina03-SemiBold, 600, normal, ttf);
+@include font-face(Eina03, fonts/Eina03-SemiBoldItalic, 600, italic, ttf);
 @include font-face(Eina03, fonts/Eina03-Bold, 800, normal, ttf);
+@include font-face(Eina03, fonts/Eina03-BoldItalic, 800, italic, ttf);
 
 
 /* Preloader
