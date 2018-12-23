@@ -41,11 +41,31 @@
 /* Variables
 ===========================*/
 @import "mixins";
-$black: #000000;
-$white: #ffffff;
-$dark: #1c1d26;
-$primary: firebrick;
-$bg: $dark;
+$primary1000: hsl(170, 97%, 15%);
+$primary900: hsl(168, 80%, 23%);
+$primary800: hsl(166, 72%, 28%);
+$primary700: hsl(164, 71%, 34%);
+$primary600: hsl(162, 63%, 41%);
+$primary500: hsl(160, 51%, 49%);
+$primary400: hsl(158, 58%, 62%);
+$primary300: hsl(156, 73%, 74%);
+$primary200: hsl(154, 75%, 87%);
+$primary100: hsl(152, 68%, 96%);
+
+$neutrals1000: hsl(209, 61%, 16%);
+$neutrals900: hsl(211, 39%, 23%);
+$neutrals800: hsl(209, 34%, 30%);
+$neutrals700: hsl(209, 28%, 39%);
+$neutrals600: hsl(210, 22%, 49%);
+$neutrals500: hsl(209, 23%, 60%);
+$neutrals400: hsl(211, 27%, 70%);
+$neutrals300: hsl(210, 31%, 80%);
+$neutrals200: hsl(212, 33%, 89%);
+$neutrals100: hsl(210, 36%, 96%);
+
+$bg: $neutrals100;
+$text: $neutrals1000;
+$primary: $primary900;
 
 /* Reset Styles
 ===========================*/
@@ -66,15 +86,19 @@ $bg: $dark;
 
 body {
 	background-color: $bg;
+	color: $text;
 	font-family: "Eina03", sans-serif;
 }
 
 section {
-	height: 100%;
-	width: 100%;
-	display: none;
-	background-color: $bg;
-	color: $white;
+	&.fullscreen {
+		height: 100%;
+		width: 100%;
+	}
+
+	&.hidden {
+		display: none;
+	}
 }
 
 /* Typography
