@@ -34,29 +34,6 @@
 ===========================*/
 /* Temporary
 ===========================*/
-.drag {
-  display: flex;
-}
-
-li {
-  border: solid 1px;
-  width: 150px;
-  margin: 10px;
-  padding: 5px;
-}
-
-li:hover {
-  cursor: pointer;
-}
-
-ul {
-  border: solid 1px;
-  width: 200px;
-  min-height: 350px;
-  margin: 15px;
-  list-style-type: none;
-}
-
 /* Variables
 ===========================*/
 /* Reset Styles
@@ -73,13 +50,22 @@ ol {
 /* Layout
 ===========================*/
 .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 
 .flex.center {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   text-align: center;
 }
 
@@ -169,7 +155,7 @@ section.hidden {
 }
 
 .preloader-wrapper::after {
-  content: '';
+  content: "";
   width: 50px;
   height: 50px;
   position: fixed;
@@ -219,3 +205,4 @@ section.hidden {
     transform: rotate(360deg);
   }
 }
+/*# sourceMappingURL=style.css.map */

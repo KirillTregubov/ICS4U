@@ -4,13 +4,12 @@
 
 	[Table of contents]
 
-    01. Variables
-    02. Reset Styles
+	01. Variables
+	02. Reset Styles
 	03. Layout
 	04. Typography
 	05. Preloader
 	06. Animations
-
 
 
 	04. Header
@@ -36,7 +35,6 @@
 
 /* Temporary
 ===========================*/
-
 
 /* Variables
 ===========================*/
@@ -65,7 +63,7 @@ $neutrals100: hsl(210, 36%, 96%);
 
 $bg: $neutrals100;
 $text: $neutrals1000;
-$primary: $primary900;
+$primary: $primary600;
 
 /* Reset Styles
 ===========================*/
@@ -74,31 +72,31 @@ $primary: $primary900;
 /* Layout
 ===========================*/
 .flex {
-	display: flex;
+  display: flex;
 }
 
 .flex.center {
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 body {
-	background-color: $bg;
-	color: $text;
-	font-family: "Eina03", sans-serif;
+  background-color: $bg;
+  color: $text;
+  font-family: "Eina03", sans-serif;
 }
 
 section {
-	&.fullscreen {
-		height: 100%;
-		width: 100%;
-	}
+  &.fullscreen {
+    height: 100%;
+    width: 100%;
+  }
 
-	&.hidden {
-		display: none;
-	}
+  &.hidden {
+    display: none;
+  }
 }
 
 /* Typography
@@ -112,36 +110,35 @@ section {
 @include font-face(Eina03, fonts/Eina03-Bold, 800, normal, ttf);
 @include font-face(Eina03, fonts/Eina03-BoldItalic, 800, italic, ttf);
 
-
 /* Preloader
 ===========================*/
 .preloader-wrapper {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: $bg;
-	z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $bg;
+  z-index: 1;
 }
 
 .preloader-wrapper::after {
-	content: '';
-	width: 50px;
-	height: 50px;
-	position: fixed;
-	left: calc(50% - 25px);
-	top: calc(50% - 25px);
-	border-radius: 50%;
-	border: 1.5px solid $primary;
-	border-right-color: $bg;
-	-webkit-animation: rotate-center 1s ease-in-out infinite both;
-	animation: rotate-center 1s ease-in-out infinite both;
-	z-index: 100000;
+  content: "";
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  left: calc(50% - 25px);
+  top: calc(50% - 25px);
+  border-radius: 50%;
+  border: 1.5px solid $primary;
+  border-right-color: $bg;
+  -webkit-animation: rotate-center 1s ease-in-out infinite both;
+  animation: rotate-center 1s ease-in-out infinite both;
+  z-index: 100000;
 }
 
 .preloader-wrapper img {
-	position: absolute;
+  position: absolute;
 }
 
 /* Animations
