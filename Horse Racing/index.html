@@ -4,44 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <title>Horse Racing</title>
 </head>
 
 <body>
 
-    <div class="preloader-wrapper flex center">
-    </div>
+    <div class="preloader-wrapper flex center"></div>
+
+    <nav id="nav">
+        <ul>
+            <li><a onclick="startGame();">Restart</a></li>
+            <li id="creditsLink"><a onclick="openCredits();">Credits</a></li>
+            <li class="right"><a class="disabled">Balance: <span id="playerBalance" class="bolded">ERROR</span></a></li>
+        </ul>
+    </nav>
 
     <section id="welcome" class="flex center hidden">
         <h1>Welcome</h1>
         <p>Short Description lol</p>
+        <a class="button" onclick="initializeGame();">Start Playing</a>
     </section>
 
-    <section id="start" class="">
-        <div class="drag">
-            <ul id="coin-drag">
-            </ul>
-            <ul id="coin-drop">
-            </ul>
+    <section id="players" class="flex center hidden">
+        <h1>Welcome</h1>
+        <!--<div id="jew" class="horse"></div>
+        <div id="alex" class="horse"></div>-->
+        <h2 id="noPlayerWarning" class="hidden warning">Looks like there are no players! Please add one before starting
+            the round.</h2>
+        <table id="playerList" class="hidden">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Balance</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr class="hidden"></tr>
+            <tbody>
+            </tbody>
+        </table>
+        <a class="button addPlayer secondary hidden" onclick='transition("players", "add");'>Add a Player</a>
+        <div class="buttonWrapper">
+            <a class="button secondary" onclick='transition("players", "add");'>Add a Player</a>
+            <a class="button" onclick='transition("players", "betting");'>Start the Game</a>
         </div>
     </section>
 
-    <section id="addPlayers" class="hidden">
+    <section id="add" class="flex center hidden">
+        <h1>Add a Player</h1>
+        <div class="inputBox">
+            <input id="nameInput" onchange="updateName();" type="text" placeholder="Player's Name" required />
+            <span class="bar"></span>
+            <label>Name</label>
+            <h5 id="nameInputError"></h5>
+        </div>
+        <a class="button secondary" onclick="addPlayer();">Add Player</a>
+    </section>
+
+    <section id="betting" class="flex center hidden hasNavbar">
+        <h1 class="selector"><span id="insertPlayer">Aaron</span> is betting
+            <div class="selectWrapper">
+                <span class="placeholder placeholderMoney">choose amount</span>
+                <ul class="select selectMoney">
+                    <li><a href="">choose amount</a></li>
+                    <li><a href="">lorem</a></li>
+                    <li><a href="">ipsum</a></li>
+                    <li><a href="">dolor</a></li>
+                    <li><a href="">sit</a></li>
+                    <li><a href="">amet</a></li>
+                </ul>
+            </div>
+            <div id="horseBetSelector">
+                on
+                <div class="selectWrapper">
+                    <span class="placeholder placeholderHorse">choose a horse</span>
+                    <ul class="select selectHorse">
+                        <li><a href="">choose a horse</a></li>
+                        <li><a href="">lorem</a></li>
+                        <li><a href="">ipsum</a></li>
+                        <li><a href="">dolor</a></li>
+                        <li><a href="">sit</a></li>
+                        <li><a href="">amet</a></li>
+                    </ul>
+                </div>
+            </div>
+        </h1>
+        <div class="bank">
+            <div class="fill" draggable="true"></div>
+        </div>
+
+        <div class="bank">
+        </div>
+        <a class="button secondary continueButton"></a>
+    </section>
+
+    <section id="play" class="flex center hidden">
 
     </section>
 
-    <section id="play" class="hidden">
+    <section id="end" class="flex center hidden">
 
     </section>
 
-    <section id="end" class="hidden">
-
-    </section>
+    <footer>
+        <ul>
+            <li>
+                <p>© Kirill Tregubov. All rights reserved.</p>
+            </li>
+            <li id="hashWrapper" class="right">
+                <p>Provably Fair: <span id="hash"></span></p>
+            </li>
+        </ul>
+    </footer>
 
 </body>
 
+<!-- Javascript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="assets/js/script.js"></script>
 
 </html>

@@ -1,3 +1,20 @@
+@mixin error {
+    color: #ffc107;
+    -webkit-transition: opacity 500ms linear;
+    transition: opacity 500ms linear;
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+}
+
+@mixin noInteraction {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 // =============================================================================
 // String Replace
 // =============================================================================

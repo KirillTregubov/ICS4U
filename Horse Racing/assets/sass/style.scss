@@ -6,10 +6,13 @@
 
 	01. Variables
 	02. Reset Styles
-	03. Layout
+  03. Layout
+  04. Navigation Bar
+  04. Footer
 	04. Typography
 	05. Preloader
-	06. Animations
+  06. Animations
+  07. Buttons
 
 
 	04. Header
@@ -35,6 +38,51 @@
 
 /* Temporary
 ===========================*/
+.fill {
+  background-image: url('../img/Bill5.png');
+  position: relative;
+  height: 135px;
+  width: 300px;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+}
+
+.hold {
+  border: solid 5px #ccc;
+}
+
+.bank {
+  display: inline-block;
+  height: 145px;
+  width: 310px;
+  margin: 10px;
+  border: solid 3px salmon;
+  background: white;
+}
+
+select {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+}
+
+.hovered {
+  background: #f4f4f4;
+  border-style: dashed;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.horse {
+  height: 80px;
+  width: 110px;
+  background-image: url(../img/caballoNegro.png);
+}
 
 /* Variables
 ===========================*/
@@ -61,13 +109,123 @@ $neutrals300: hsl(210, 31%, 80%);
 $neutrals200: hsl(212, 33%, 89%);
 $neutrals100: hsl(210, 36%, 96%);
 
-$bg: $neutrals100;
-$text: $neutrals1000;
+$destructive1000: hsl(360, 92%, 20%);
+$destructive900: hsl(360, 85%, 25%);
+$destructive800: hsl(360, 79%, 32%);
+$destructive700: hsl(360, 72%, 38%);
+$destructive600: hsl(360, 67%, 44%);
+$destructive500: hsl(360, 64%, 55%);
+$destructive400: hsl(360, 71%, 66%);
+$destructive300: hsl(360, 77%, 78%);
+$destructive200: hsl(360, 82%, 89%);
+$destructive100: hsl(360, 100%, 97%);
+
+$bg: $neutrals1000;
 $primary: $primary600;
 
 /* Reset Styles
 ===========================*/
 @import "reset";
+
+.selector {
+  text-align: center;
+  text-decoration: none;
+  @include noInteraction;
+
+  #horseBetSelector {
+    display: inline;
+  }
+}
+
+@media (max-width: 1415px) {
+  .selector #horseBetSelector {
+    display: block;
+  }
+}
+
+.transition {
+  transition: all .4s ease-in-out;
+}
+
+.selectWrapper {
+  display: inline;
+  position: relative;
+
+  ul {
+    background-color: $neutrals900;
+    width: max-content;
+    text-align: left;
+    position: absolute;
+    padding: 0 0.2em 0.3em 0.2em;
+    margin: 0 -0.2em -0.3em -0.2em;
+    top: 0;
+    left: 0;
+    display: none;
+    border-radius: 5px;
+    z-index: 99;
+
+    .active {
+      display: block;
+    }
+  }
+
+  li {
+    width: auto;
+    list-style: none;
+
+    &:first-child a {
+      color: $primary900;
+
+      &::after {
+        background: $primary700;
+      }
+
+      &:hover {
+        color: $primary700;
+
+        &::after {
+          background: $primary700;
+        }
+      }
+    }
+  }
+
+  a {
+    text-decoration: none;
+    transition: all .4s;
+    color: $primary;
+    position: relative;
+
+    &:after {
+      position: absolute;
+      content: '';
+      height: 5px;
+      width: 0;
+      left: 0;
+      background: lighten($primary, 20%);
+      bottom: 0;
+      transition: all .4s ease-out;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: $primary400;
+
+      &:after {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.placeholder {
+  border-bottom: 4px solid;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary400;
+  }
+}
 
 /* Layout
 ===========================*/
@@ -84,18 +242,141 @@ $primary: $primary600;
 
 body {
   background-color: $bg;
-  color: $text;
+  color: $neutrals400;
   font-family: "Eina03", sans-serif;
 }
 
 section {
+  height: 95vh;
+
   &.fullscreen {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
   }
 
-  &.hidden {
-    display: none;
+  &.hasNavbar {
+    height: 90vh;
+  }
+
+  * {
+    width: 55vw;
+
+    &.button,
+    &.inputBox {
+      width: 25vw;
+    }
+  }
+
+  .buttonWrapper {
+    display: flex;
+    margin: 8px 0px;
+
+    * {
+      margin: 0 1vw 0 1vw;
+    }
+
+  }
+}
+
+/* Navigation Bar
+===========================*/
+nav {
+  //display: none;
+  //opacity: 0;
+  height: 5vh;
+  padding: 0 2vw;
+  background-color: $neutrals900;
+  font-size: 1.1em;
+  -webkit-transition: opacity 200ms linear;
+  transition: opacity 200ms linear;
+  @include noInteraction;
+
+  ul {
+    height: 100%;
+    list-style: none;
+    display: flex;
+
+    li {
+      margin-right: 2vw;
+      display: flex;
+
+      &::before {
+        content: '';
+        height: 3vh;
+        margin-right: 2vw;
+        margin: auto 2vw auto 0;
+        border-left: 1px solid $neutrals700;
+      }
+
+      &:first-child::before {
+        display: none;
+      }
+
+      &.right {
+        margin-left: auto;
+        margin-right: 0;
+
+        &::before {
+          display: none;
+        }
+      }
+
+      a {
+        cursor: pointer;
+        padding: inherit;
+        margin: auto;
+
+        &:hover,
+        &.active {
+          color: $primary;
+        }
+
+        &.disabled:hover {
+          cursor: not-allowed;
+          color: inherit;
+        }
+      }
+    }
+  }
+}
+
+/* Footer
+===========================*/
+footer {
+  height: 5vh;
+  padding: 0 2vw;
+  font-size: 0.8em;
+  background-color: $neutrals900;
+  @include noInteraction;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    list-style: none;
+    display: flex;
+
+    li {
+      margin-right: 2vw;
+      display: flex;
+
+      &.right {
+        opacity: 0;
+        margin-left: auto;
+        margin-right: 0;
+      }
+
+      a,
+      p {
+        cursor: pointer;
+        padding: inherit;
+        margin: auto;
+      }
+
+      a:hover,
+      a.active {
+        color: $primary;
+      }
+    }
   }
 }
 
@@ -109,6 +390,31 @@ section {
 @include font-face(Eina03, fonts/Eina03-SemiBoldItalic, 600, italic, ttf);
 @include font-face(Eina03, fonts/Eina03-Bold, 800, normal, ttf);
 @include font-face(Eina03, fonts/Eina03-BoldItalic, 800, italic, ttf);
+
+h1 {
+  color: $neutrals100;
+  font-size: 2em;
+  margin: 0 0 0.5em 0;
+}
+
+h2 {
+  color: $neutrals200;
+  font-weight: 100;
+  font-size: 1.15em;
+  margin: 0 0 0.5em 0;
+
+  &.warning {
+    @include error;
+    margin-bottom: 2em;
+  }
+}
+
+.inputBox h5 {
+  display: none;
+  margin: 1vh 0;
+  font-weight: 100;
+  @include error;
+}
 
 /* Preloader
 ===========================*/
@@ -144,3 +450,251 @@ section {
 /* Animations
 ===========================*/
 @import "animations";
+
+/* Buttons
+===========================*/
+.button {
+  background-color: $primary;
+  border-color: $primary;
+  color: $neutrals100;
+  border: none;
+  padding: 16px 8px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 8px 0px;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 2px solid $primary;
+
+  &:hover {
+    background-color: $primary500;
+    border-color: $primary500;
+    border-radius: 15px;
+  }
+
+  &:active {
+    background-color: $primary700;
+    border-color: $primary700;
+    border-radius: 15px;
+  }
+
+  &.secondary {
+    background-color: inherit;
+    border: 2px solid $neutrals400;
+    color: $neutrals400;
+
+    &:hover {
+      color: $primary;
+      border-color: $primary;
+    }
+
+    &:active {
+      background-color: $neutrals900;
+    }
+  }
+
+  &.destructive {
+    background-color: $destructive600;
+    border-color: $destructive600;
+    color: $neutrals100;
+
+    &:hover {
+      background-color: $destructive500;
+      border-color: $destructive500;
+    }
+
+    &:active {
+      background-color: $destructive700;
+      border-color: $destructive700;
+    }
+  }
+}
+
+/* Table
+===========================*/
+table {
+  background: $neutrals900;
+  border-radius: 0.25em;
+  border-collapse: collapse;
+  margin: 1em;
+  width: 45vw;
+  min-width: 300px;
+
+  th {
+    border-bottom: 1px solid $neutrals800;
+    color: $primary500;
+    font-weight: bold;
+    padding: 0.5em 1em;
+    text-align: left;
+  }
+
+  td {
+    color: $neutrals100;
+    padding: 1.25em 1em;
+
+    .button {
+      padding: 0.1em 0.5em 0.3em 0.5em;
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background 0.35s ease;
+
+      :last-child {
+        width: 15%;
+      }
+
+      &:hover {
+        background: $primary800;
+      }
+    }
+  }
+}
+
+/* Input Box */
+.inputBox {
+  text-align: left;
+  position: relative;
+  margin-top: 45px;
+  margin: 30px 0 15px 0;
+}
+
+.inputBox * {
+  width: 100% !important;
+}
+
+input {
+  background-color: inherit;
+  font-size: 18px;
+  padding: 10px 0 10px 0;
+  display: block;
+  width: 100vw;
+  border: none;
+  border-bottom: 1px solid #fff;
+  color: #A0A1AE;
+}
+
+input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+input:-moz-placeholder {
+  color: transparent;
+}
+
+input::-moz-placeholder {
+  color: transparent;
+}
+
+input:-ms-input-placeholder {
+  color: transparent;
+}
+
+input:focus::-webkit-input-placeholder {
+  color: #515363;
+}
+
+input:focus:-moz-placeholder {
+  color: #515363;
+}
+
+input:focus::-moz-placeholder {
+  color: #515363;
+}
+
+input:focus:-ms-input-placeholder {
+  color: #515363;
+}
+
+input:focus {
+  outline: none;
+}
+
+label {
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+/* active state */
+input:focus~label,
+input:valid~label {
+  top: -20px;
+  font-size: 14px;
+  color: #f44336;
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.bar:before,
+.bar:after {
+  position: absolute;
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 0;
+  background: #f44336;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.bar:before {
+  left: 50%;
+}
+
+.bar:after {
+  right: 50%;
+}
+
+/* active state */
+input:focus~.bar:before,
+input:focus~.bar:after {
+  width: 50%;
+}
+
+@-webkit-keyframes inputHighlighter {
+  from {
+    background: #f44336;
+  }
+
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+
+@-moz-keyframes inputHighlighter {
+  from {
+    background: #f44336;
+  }
+
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+
+@keyframes inputHighlighter {
+  from {
+    background: #f44336;
+  }
+
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
