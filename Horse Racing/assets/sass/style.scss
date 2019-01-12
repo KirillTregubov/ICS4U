@@ -143,10 +143,6 @@ $primary: $primary600;
   }
 }
 
-.transition {
-  transition: all .4s ease-in-out;
-}
-
 .selectWrapper {
   display: inline;
   position: relative;
@@ -186,7 +182,18 @@ $primary: $primary600;
         &::after {
           background: $primary700;
         }
+
       }
+    }
+
+    &:hover a {
+      cursor: pointer;
+      color: $primary400;
+
+      &::after {
+        width: 100%;
+      }
+
     }
   }
 
@@ -205,15 +212,6 @@ $primary: $primary600;
       background: lighten($primary, 20%);
       bottom: 0;
       transition: all .4s ease-out;
-    }
-
-    &:hover {
-      cursor: pointer;
-      color: $primary400;
-
-      &:after {
-        width: 100%;
-      }
     }
   }
 }

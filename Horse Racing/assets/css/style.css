@@ -116,11 +116,6 @@ ol {
   }
 }
 
-.transition {
-  -webkit-transition: all .4s ease-in-out;
-  transition: all .4s ease-in-out;
-}
-
 .selectWrapper {
   display: inline;
   position: relative;
@@ -167,6 +162,15 @@ ol {
   background: #199473;
 }
 
+.selectWrapper li:hover a {
+  cursor: pointer;
+  color: #66d6ad;
+}
+
+.selectWrapper li:hover a::after {
+  width: 100%;
+}
+
 .selectWrapper a {
   text-decoration: none;
   -webkit-transition: all .4s;
@@ -185,15 +189,6 @@ ol {
   bottom: 0;
   -webkit-transition: all .4s ease-out;
   transition: all .4s ease-out;
-}
-
-.selectWrapper a:hover {
-  cursor: pointer;
-  color: #66d6ad;
-}
-
-.selectWrapper a:hover:after {
-  width: 100%;
 }
 
 .placeholder {

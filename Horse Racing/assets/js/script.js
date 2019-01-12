@@ -3,8 +3,9 @@ $.getScript("assets/js/interact.js", function () {});
 
 $(document).ready(function () {
     $('.preloader-wrapper').fadeOut();
-    $('#players').removeClass("hidden");
-    initializeGame();
+    $('#betting').removeClass("hidden");
+    //initializeGame();
+
     $(".horse").animateSprite({
         animations: {
             walkRight: [1, 2, 3, 4, 5, 6]
@@ -23,7 +24,7 @@ $(document).ready(function () {
         $('.selectHorse').toggle();
     });
 
-    $('.selectMoney a').on('click', function (ev) {
+    $('.selectMoney li').on('click', function (ev) {
         ev.preventDefault();
         var index = $(this).parent().index();
 
@@ -108,15 +109,16 @@ function initializeGame() {
 function initializeRound() {
     shuffle(DEFAULT_HORSES);
     currentHorses = DEFAULT_HORSES.slice(0, 6);
-    currentBets = {};
 }
 
 function continueBetting() {
     // make another plaeyr ebt
+    console.log("next player");
 }
 
 function startRound() {
     // start horse race
+    console.log("start round");
 }
 
 function addPlayer() {
@@ -127,15 +129,16 @@ function addPlayer() {
             balance: DEFAULT_BALANCE
         });
         $('#playerList tr:last').after('<tr><td>' + players[players.length - 1].name + '</td><td>' + players[players.length - 1].balance + '</td><td><a class="button destructive">remove</a></td></tr>');
+        transition("add", "players");
+        $("#nameInput").val("");
     }
-    transition("add", "players");
-    $("#nameInput").val("");
 }
 
 function updateName() {
     // Check for errors
     let error = $("#nameInputError");
     if (!$("#nameInput").val()) {
+        isNameValid = false;
         error.html("Please input a valid name!");
         error.css("display", "block");
     } else {
@@ -146,7 +149,8 @@ function updateName() {
 }
 
 function reset() {
-
+    currentBets = {};
+    // bunch of other variables please test
 }
 
 function transition(currentId, nextId) {
@@ -162,8 +166,11 @@ function transition(currentId, nextId) {
             $("#players").find(".buttonWrapper").addClass("hidden");
         }
     } else if (nextId == "betting") {
-        if (players.length > 1) $("#players").find(".continueButton").attr("onclick", "continueBetting()").html("Continue to Next Player");
-        else $("#players").find(".continueButton").attr("onclick", "startRound()").html("Continue to Game");
+        // Fix button
+        if (players.length > 1) $("#betting").find(".continueButton").attr("onclick", "continueBetting()").html("Continue to Next Player");
+        else $("#betting").find(".continueButton").attr("onclick", "startRound()").html("Continue to Game");
+
+        // Set horses
     }
 
     // Regular Behaviour
