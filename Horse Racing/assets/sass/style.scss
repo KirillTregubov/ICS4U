@@ -36,54 +36,6 @@
 
 ===========================*/
 
-/* Temporary
-===========================*/
-.fill {
-  background-image: url('../img/Bill5.png');
-  position: relative;
-  height: 135px;
-  width: 300px;
-  top: 5px;
-  left: 5px;
-  cursor: pointer;
-}
-
-.hold {
-  border: solid 5px #ccc;
-}
-
-.bank {
-  display: inline-block;
-  height: 145px;
-  width: 310px;
-  margin: 10px;
-  border: solid 3px salmon;
-  background: white;
-}
-
-select {
-  width: 100%;
-  padding: 16px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: #f1f1f1;
-}
-
-.hovered {
-  background: #f4f4f4;
-  border-style: dashed;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.horse {
-  height: 80px;
-  width: 110px;
-  background-image: url(../img/caballoNegro.png);
-}
-
 /* Variables
 ===========================*/
 @import "mixins";
@@ -122,6 +74,88 @@ $destructive100: hsl(360, 100%, 97%);
 
 $bg: $neutrals1000;
 $primary: $primary600;
+
+/* Temporary
+===========================*/
+.hidden {
+  display: none !important;
+}
+
+#playerAmount, #playerBalance {
+  font-weight: bold;
+}
+
+#draggableBill {
+  //background-image: url('../img/Bill5.png');
+  position: relative;
+  height: 135px;
+  width: 300px;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+
+  &[value="5"] {
+    background-image: url('../img/Bill5.png');
+  }
+  &[value="10"] {
+    background-image: url('../img/Bill10.png');
+  }
+  &[value="20"] {
+    background-image: url('../img/Bill20.png');
+  }
+  &[value="50"] {
+    background-image: url('../img/Bill50.png');
+  }
+  &[value="100"] {
+    background-image: url('../img/Bill100.png');
+  }
+}
+
+.bank {
+  display: inline-block;
+  height: 145px;
+  width: 310px;
+  margin: 10px;
+  border: solid 3px $primary;
+  background-color: $neutrals900;
+  border-radius: 0.25em;
+
+  &#dropTarget {
+    background-image: url('../img/Bank.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40%;
+  }
+}
+
+.hovered {
+  background-color: $neutrals700 !important;
+  border-style: dashed;
+}
+
+.horse {
+  // size: 81px 110px;
+  height: 60.75px;
+  width: 82.5px;
+
+  background-image: url(../img/smcaballoNegro.png);
+  background-position: 0px -60.75px;
+
+  &.winner {
+    background-color: $primary;
+    border-radius: 5px;
+  }
+}
+
+#race {
+  width: 600px;
+  height: 375px;
+  background-color: $neutrals900;
+  border-radius: 10px;
+  .horse {
+    margin-left: 0;
+  }
+}
 
 /* Reset Styles
 ===========================*/
@@ -323,9 +357,12 @@ nav {
         padding: inherit;
         margin: auto;
 
-        &:hover,
-        &.active {
+        &:hover {
           color: $primary;
+        }
+
+        &:active {
+          color: $primary700;
         }
 
         &.disabled:hover {
@@ -371,7 +408,7 @@ footer {
       }
 
       a:hover,
-      a.active {
+      a:active {
         color: $primary;
       }
     }
@@ -393,6 +430,11 @@ h1 {
   color: $neutrals100;
   font-size: 2em;
   margin: 0 0 0.5em 0;
+
+  .button {
+    padding: 0.2em 0.5em 0.3em 0.5em;
+    margin-bottom: 0.5em;
+  }
 }
 
 h2 {
@@ -403,7 +445,7 @@ h2 {
 
   &.warning {
     @include error;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
   }
 }
 
@@ -452,6 +494,7 @@ h2 {
 /* Buttons
 ===========================*/
 .button {
+  @include noInteraction;
   background-color: $primary;
   border-color: $primary;
   color: $neutrals100;

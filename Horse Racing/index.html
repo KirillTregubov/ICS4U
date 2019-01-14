@@ -14,11 +14,17 @@
 
     <nav id="nav">
         <ul>
-            <li><a onclick="startGame();">Restart</a></li>
+            <li><a onclick="initializeGame();">Restart</a></li>
             <li id="creditsLink"><a onclick="openCredits();">Credits</a></li>
-            <li class="right"><a class="disabled">Balance: <span id="playerBalance" class="bolded">ERROR</span></a></li>
+            <li class="right"><a class="disabled">Players: <span id="playerAmount">ERROR</span></a></li>
         </ul>
     </nav>
+
+    <section id="credits" class="flex center hasNavbar hidden">
+        <h1>Ported to the Web by <span class="special">Kirill Tregubov</span></h1>
+        <p>Original Java code provided by <span class="bolded">Kevin DesLauriers</span></p>
+        <a class="button" onclick="goBack();">Return to game</a>
+    </section>
 
     <section id="welcome" class="flex center hidden">
         <h1>Welcome</h1>
@@ -28,8 +34,6 @@
 
     <section id="players" class="flex center hidden">
         <h1>Welcome</h1>
-        <!--<div id="jew" class="horse"></div>
-        <div id="alex" class="horse"></div>-->
         <h2 id="noPlayerWarning" class="hidden warning">Looks like there are no players! Please add one before starting
             the round.</h2>
         <table id="playerList" class="hidden">
@@ -40,8 +44,8 @@
                     <th></th>
                 </tr>
             </thead>
-            <tr class="hidden"></tr>
             <tbody>
+                <tr class="hidden"></tr>
             </tbody>
         </table>
         <a class="button addPlayer secondary hidden" onclick='transition("players", "add");'>Add a Player</a>
@@ -63,44 +67,44 @@
     </section>
 
     <section id="betting" class="flex center hidden hasNavbar">
-        <h1 class="selector"><span id="insertPlayer">Aaron</span> is betting $
-            <div class="selectWrapper">
-                <span class="placeholder placeholderMoney">choose amount</span>
-                <ul class="select selectMoney">
-                    <li><a href="">choose amount</a></li>
-                    <li><a href="">5</a></li>
-                    <li><a href="">10</a></li>
-                    <li><a href="">20</a></li>
-                    <li><a href="">50</a></li>
-                    <li><a href="">100</a></li>
-                </ul>
-            </div>
+        <h1 class="selector"><span id="insertPlayer">Player</span> is betting $
+            <div class="selectWrapper"> </div>
             <div id="horseBetSelector">
                 on
-                <div class="selectWrapper">
-                    <span class="placeholder placeholderHorse">choose a horse</span>
-                    <ul class="select selectHorse">
-                        <li><a href="">choose a horse</a></li>
-                        <li><a href="">lorem</a></li>
-                        <li><a href="">ipsum</a></li>
-                        <li><a href="">dolor</a></li>
-                        <li><a href="">sit</a></li>
-                        <li><a href="">amet</a></li>
-                    </ul>
-                </div>
+                <div class="selectWrapper"></div>
             </div>
         </h1>
-        <div class="bank">
-            <div class="fill" draggable="true"></div>
+        <h2>Balance: <span id="playerBalance"></span></h2>
+        <h2 id="notEnoughMoney" class="hidden warning">You do not have enough money to place this bet!</h2>
+        <div id="dropOrigin" class="bank">
+            <div id="draggableBill" class="hidden" draggable="true"></div>
         </div>
 
-        <div class="bank">
+        <div id="dropTarget" class="bank">
         </div>
         <a class="button secondary continueButton"></a>
     </section>
 
-    <section id="play" class="flex center hidden">
-
+    <section id="play" class="flex center hidden hasNavbar">
+        <h1>Bets Placed <a class="button" onclick="toggleBets()">reveal</a></h1>
+        <table id="betList" class="hidden">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Horse</th>
+                    <th>Bet Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="hidden"></tr>
+            </tbody>
+        </table>
+        <h1>Race</h1>
+        <div id="race">
+            <div class="hidden"></div>
+        </div>
+        <a class="button" onclick="startRace();">Start Race</a>
     </section>
 
     <section id="end" class="flex center hidden">

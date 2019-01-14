@@ -35,10 +35,19 @@
 	21. Blog
 
 ===========================*/
+/* Variables
+===========================*/
 /* Temporary
 ===========================*/
-.fill {
-  background-image: url("../img/Bill5.png");
+.hidden {
+  display: none !important;
+}
+
+#playerAmount, #playerBalance {
+  font-weight: bold;
+}
+
+#draggableBill {
   position: relative;
   height: 135px;
   width: 300px;
@@ -47,8 +56,24 @@
   cursor: pointer;
 }
 
-.hold {
-  border: solid 5px #ccc;
+#draggableBill[value="5"] {
+  background-image: url("../img/Bill5.png");
+}
+
+#draggableBill[value="10"] {
+  background-image: url("../img/Bill10.png");
+}
+
+#draggableBill[value="20"] {
+  background-image: url("../img/Bill20.png");
+}
+
+#draggableBill[value="50"] {
+  background-image: url("../img/Bill50.png");
+}
+
+#draggableBill[value="100"] {
+  background-image: url("../img/Bill100.png");
 }
 
 .bank {
@@ -56,35 +81,46 @@
   height: 145px;
   width: 310px;
   margin: 10px;
-  border: solid 3px salmon;
-  background: white;
+  border: solid 3px #27aa83;
+  background-color: #243a52;
+  border-radius: 0.25em;
 }
 
-select {
-  width: 100%;
-  padding: 16px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: #f1f1f1;
+.bank#dropTarget {
+  background-image: url("../img/Bank.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40%;
 }
 
 .hovered {
-  background: #f4f4f4;
+  background-color: #48647f !important;
   border-style: dashed;
 }
 
-.hidden {
-  display: none !important;
-}
-
 .horse {
-  height: 80px;
-  width: 110px;
-  background-image: url(../img/caballoNegro.png);
+  height: 60.75px;
+  width: 82.5px;
+  background-image: url(../img/smcaballoNegro.png);
+  background-position: 0px -60.75px;
 }
 
-/* Variables
-===========================*/
+.horse.winner {
+  background-color: #27aa83;
+  border-radius: 5px;
+}
+
+#race {
+  width: 600px;
+  height: 375px;
+  background-color: #243a52;
+  border-radius: 10px;
+}
+
+#race .horse {
+  margin-left: 0;
+}
+
 /* Reset Styles
 ===========================*/
 html,
@@ -317,8 +353,12 @@ nav ul li a {
   margin: auto;
 }
 
-nav ul li a:hover, nav ul li a.active {
+nav ul li a:hover {
   color: #27aa83;
+}
+
+nav ul li a:active {
+  color: #199473;
 }
 
 nav ul li a.disabled:hover {
@@ -371,7 +411,7 @@ footer ul li p {
 }
 
 footer ul li a:hover,
-footer ul li a.active {
+footer ul li a:active {
   color: #27aa83;
 }
 
@@ -439,6 +479,11 @@ h1 {
   margin: 0 0 0.5em 0;
 }
 
+h1 .button {
+  padding: 0.2em 0.5em 0.3em 0.5em;
+  margin-bottom: 0.5em;
+}
+
 h2 {
   color: #dae2ec;
   font-weight: 100;
@@ -454,7 +499,7 @@ h2.warning {
           animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
 .inputBox h5 {
@@ -569,6 +614,11 @@ h2.warning {
 /* Buttons
 ===========================*/
 .button {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   background-color: #27aa83;
   border-color: #27aa83;
   color: #f1f5f8;
