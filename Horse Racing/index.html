@@ -14,25 +14,27 @@
 
     <nav id="nav">
         <ul>
-            <li><a onclick="initializeGame();">Restart</a></li>
-            <li id="creditsLink"><a onclick="openCredits();">Credits</a></li>
-            <li class="right"><a class="disabled">Players: <span id="playerAmount">ERROR</span></a></li>
+            <li><a id="restartButton">Restart</a></li>
+            <li><a id="creditButton" class="credits">Credits</a></li>
+            <li class="right hidden"><a class="disabled">Players: <span id="playerAmount"></span></a></li>
         </ul>
     </nav>
 
-    <section id="credits" class="flex center hasNavbar hidden">
-        <h1>Ported to the Web by <span class="special">Kirill Tregubov</span></h1>
-        <p>Original Java code provided by <span class="bolded">Kevin DesLauriers</span></p>
-        <a class="button" onclick="goBack();">Return to game</a>
+    <section id="credits" class="flex center hasFooter hidden">
+        <h1>Created for the Web by <span class="special">Kirill Tregubov</span></h1>
+        <p>Logic and Javascript for the Horse Racing game was written by <span class="special">Kirill Tregubov</span></p>
+        <a id="returnButton" class="button">Return to game</a>
     </section>
 
-    <section id="welcome" class="flex center hidden">
+    <section id="welcome" class="flex center hasFooter hidden">
         <h1>Welcome</h1>
-        <p>Short Description lol</p>
-        <a class="button" onclick="initializeGame();">Start Playing</a>
+        <p>Horse racing is an equestrian performance sport, typically involving two or more horses ridden by jockeys
+            over a set distance for competition. The goal of this game is to bet on the winning horse and observe the
+            race.</p>
+        <a id="startPlaying" class="button">Start Playing</a>
     </section>
 
-    <section id="players" class="flex center hidden">
+    <section id="players" class="flex center hasFooter hidden">
         <h1>Welcome</h1>
         <h2 id="noPlayerWarning" class="hidden warning">Looks like there are no players! Please add one before starting
             the round.</h2>
@@ -45,17 +47,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hidden"></tr>
             </tbody>
         </table>
-        <a class="button addPlayer secondary hidden" onclick='transition("players", "add");'>Add a Player</a>
+        <a id="addPlayer" class="button secondary hidden">Add a Player</a>
         <div class="buttonWrapper">
-            <a class="button secondary" onclick='transition("players", "add");'>Add a Player</a>
-            <a class="button" onclick='transition("players", "betting");'>Start the Game</a>
+            <a id="addPlayerTwo" class="button secondary">Add a Player</a>
+            <a id="startRound" class="button">Start the Game</a>
         </div>
     </section>
 
-    <section id="add" class="flex center hidden">
+    <section id="add" class="flex center hasFooter hidden">
         <h1>Add a Player</h1>
         <div class="inputBox">
             <input id="nameInput" onchange="updateName();" type="text" placeholder="Player's Name" required />
@@ -63,10 +64,10 @@
             <label>Name</label>
             <h5 id="nameInputError"></h5>
         </div>
-        <a class="button secondary" onclick="addPlayer();">Add Player</a>
+        <a id="addPlayerButton" class="button secondary">Add Player</a>
     </section>
 
-    <section id="betting" class="flex center hidden hasNavbar">
+    <section id="betting" class="flex center hasFooter hidden">
         <h1 class="selector"><span id="insertPlayer">Player</span> is betting $
             <div class="selectWrapper"> </div>
             <div id="horseBetSelector">
@@ -85,33 +86,43 @@
         <a class="button secondary continueButton"></a>
     </section>
 
-    <section id="play" class="flex center hidden hasNavbar">
-        <h1>Bets Placed <a class="button" onclick="toggleBets()">reveal</a></h1>
+    <section id="play" class="flex center hasFooter hidden">
+        <h1>Bets Placed <a id="betButton" class="button">reveal</a></h1>
         <table id="betList" class="hidden">
             <thead>
                 <tr>
                     <th>Player</th>
                     <th>Horse</th>
                     <th>Bet Amount</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="hidden"></tr>
             </tbody>
         </table>
-        <h1>Race</h1>
+        <!-- <h1>Race</h1> -->
+        <h2 class="hidden">Winner: <span id="winnerHorse"></span></h2>
         <div id="race">
             <div class="hidden"></div>
         </div>
-        <a class="button" onclick="startRace();">Start Race</a>
+        <a class="button">Start Race</a>
     </section>
 
-    <section id="end" class="flex center hidden">
-
+    <section id="end" class="flex center hasFooter hidden">
+        <h1>Winners</h1>
+        <table id="winnerList">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Winnings</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <a class="button"></a>
     </section>
 
-    <footer>
+    <footer class="hidden">
         <ul>
             <li>
                 <p>© Kirill Tregubov. All rights reserved.</p>

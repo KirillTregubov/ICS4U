@@ -43,7 +43,8 @@
   display: none !important;
 }
 
-#playerAmount, #playerBalance {
+#playerAmount,
+#playerBalance {
   font-weight: bold;
 }
 
@@ -108,6 +109,7 @@
 .horse.winner {
   background-color: #27aa83;
   border-radius: 5px;
+  padding-top: 5px;
 }
 
 #race {
@@ -272,7 +274,7 @@ section.fullscreen {
   height: 100vh;
 }
 
-section.hasNavbar {
+section.hasFooter {
   height: 90vh;
 }
 
@@ -341,6 +343,7 @@ nav ul li:first-child::before {
 nav ul li.right {
   margin-left: auto;
   margin-right: 0;
+  opacity: 0;
 }
 
 nav ul li.right::before {
@@ -484,6 +487,11 @@ h1 .button {
   margin-bottom: 0.5em;
 }
 
+h1 span.special {
+  font-weight: 800;
+  color: #66d6ad;
+}
+
 h2 {
   color: #dae2ec;
   font-weight: 100;
@@ -502,6 +510,18 @@ h2.warning {
   margin-bottom: 1em;
 }
 
+h2.attention {
+  color: #d64343;
+  font-size: 1.5em;
+  font-weight: 600;
+  -webkit-transition: opacity 500ms linear;
+  transition: opacity 500ms linear;
+  -webkit-animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+          animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+
 .inputBox h5 {
   display: none;
   margin: 1vh 0;
@@ -513,6 +533,11 @@ h2.warning {
           animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
+}
+
+p span.special {
+  font-weight: 800;
+  color: #66d6ad;
 }
 
 /* Preloader
@@ -647,6 +672,17 @@ h2.warning {
   border-radius: 15px;
 }
 
+.button.disabled {
+  cursor: not-allowed;
+  background-color: #243a52;
+  border: 2px solid #9eb2c7;
+  color: #9eb2c7;
+}
+
+.button.disabled:hover {
+  border-radius: 10px;
+}
+
 .button.secondary {
   background-color: inherit;
   border: 2px solid #9eb2c7;
@@ -711,7 +747,7 @@ table tbody tr {
   transition: background 0.35s ease;
 }
 
-table tbody tr :last-child {
+table tbody tr td.hasButton {
   width: 15%;
 }
 
@@ -740,6 +776,7 @@ input {
   border: none;
   border-bottom: 1px solid #fff;
   color: #A0A1AE;
+  text-transform: capitalize;
 }
 
 input::-webkit-input-placeholder {
@@ -794,7 +831,7 @@ input:focus ~ label,
 input:valid ~ label {
   top: -20px;
   font-size: 14px;
-  color: #f44336;
+  color: #27aa83;
 }
 
 .bar {
@@ -810,7 +847,7 @@ input:valid ~ label {
   height: 2px;
   width: 0;
   bottom: 0;
-  background: #f44336;
+  background: #27aa83;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
@@ -832,7 +869,7 @@ input:focus ~ .bar:after {
 
 @-webkit-keyframes inputHighlighter {
   from {
-    background: #f44336;
+    background: #27aa83;
   }
   to {
     width: 0;
@@ -842,7 +879,7 @@ input:focus ~ .bar:after {
 
 @keyframes inputHighlighter {
   from {
-    background: #f44336;
+    background: #27aa83;
   }
   to {
     width: 0;

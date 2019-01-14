@@ -1,27 +1,13 @@
-$.getScript("assets/js/animateSprite.js", function () { });
-$.getScript("assets/js/interact.js", function () { });
+$.getScript("assets/js/animateSprite.js", function () {});
+$.getScript("assets/js/interact.js", function () {});
 
 $(document).ready(function () {
     $('.preloader-wrapper').fadeOut();
-
-    initializeRound();
-    players = [{ name: "aa", balance: "500" }, { name: "bb", balance: "500" }];
-    $("#playerAmount").html(players.length);
-    currentBets = [{ player: 0, amount: 50, horse: "F" }, { player: 1, amount: 20, horse: "B" }];
-    transition('play', 'play');
-    //initializeGame();
-
-    $(".horse").animateSprite({
-        fps: 13,
-        animations: {
-            run: [1, 2, 3, 4, 5, 6]
-        },
-        autoplay: false,
-        loop: true
-    });
+    $('#welcome').removeClass("hidden");
 });
 
 // Variables
+const ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const DEFAULT_BALANCE = 500;
 const DEFAULT_HORSES = ["A", "B", "C", "D", "E", "F", "G", "H"];
 var origin;
@@ -31,57 +17,220 @@ var currentPlayer;
 var currentHorses;
 var currentBets;
 var maxPosition;
+var winningHorse;
 var moneyTime = false;
 var horseTime = false;
 
+// Onclick buttons
+$('#restartButton').click(function () {
+    initializeGame();
+});
+
+$('#creditButton').click(function () {
+    if ($(this).hasClass("credits")) {
+        $("section").each(function () {
+            if (!$(this).hasClass("hidden") && $(this).attr("id") != "credits") {
+                origin = $(this).attr("id");
+            }
+        });
+        $(this).removeClass("credits").html("Return");
+        transition(origin, "credits");
+    } else {
+        $("section").each(function () {
+            if (!$(this).hasClass("hidden") && $(this).attr("id") != "credits") {
+                origin = $(this).attr("id");
+            }
+        });
+        $(this).addClass("credits").html("Credits");
+        transition("credits", origin);
+    }
+});
+
+$('#returnButton').click(function () {
+    $("section").each(function () {
+        if (!$(this).hasClass("hidden") && $(this).attr("id") != "credits") {
+            origin = $(this).attr("id");
+        }
+    });
+    $("#creditButton").addClass("credits").html("Credits");
+    transition("credits", origin);
+});
+
+$('#startPlaying').click(function () {
+    initializeGame();
+});
+
+$('#addPlayer').click(function () {
+    transition("players", "add");
+});
+
+$('#addPlayerTwo').click(function () {
+    transition("players", "add");
+});
+
+$('#startRound').click(function () {
+    transition("players", "betting");
+});
+
+$('#betButton').click(function () {
+    toggleBets();
+});
+
 function initializeGame() {
-    $("#creditsLink").html('<a onclick="openCredits();">Credits</a>');
     $("section").each(function () {
         if (!$(this).hasClass("hidden") && $(this).attr("id") != "players") {
             origin = $(this).attr("id");
         }
     });
+
+    /*$('#addPlayer').off("click").on("click", function () {
+        transition("players", "add");
+    });*/
+
     players = [];
     $("#playerAmount").html(players.length);
+    $("#creditButton").addClass("credits").html("Credits");
+    $("#nav").find(".hidden").removeClass("hidden").animate({
+        opacity: 1
+    }, 300);
     initializeRound();
     transition(origin, "players");
 }
 
 function initializeRound() {
+    // Reset Values
     currentPlayer = 0;
     currentBets = [];
     maxPosition = 0;
+    winningHorse = 0;
+    moneyTime = false;
+    horseTime = false;
+
+    // Methods
     shuffle(DEFAULT_HORSES);
     currentHorses = DEFAULT_HORSES.slice(0, 6);
+    stopListeners();
+    $("#play").find("h2").addClass("hidden").removeClass("attention");
+    $("#playerList").find("tbody").html('<tr class="hidden"></tr>');
+    $("#winnerList").find("tbody").html('<tr class="hidden"></tr>');
+    $("#betList").find("tbody").html('<tr class="hidden"></tr>');
+    $("#race").html('<div class="hidden"></div>');
+    $("#play").find(".button:last").off("click").on("click", function () {
+        startRace();
+    }).html("Start Race");
+    $("#end").find(".button:last").off("click").on("click", function () {
+        transition("end", "players");
+    }).html("Continue to Next Round");
+    $("#startRound")
+    $("#dropOrigin").html('<div id="draggableBill" class="hidden" draggable="true"></div>');
+    players.forEach(function (element) {
+        $('#playerList tr:last').after('<tr name="' + element.name + '"><td>' + element.name + '</td><td>' + element.balance + '</td><td class="hasButton"><a class="button destructive" onclick="removePlayer(\'' + element.name + '\')">remove</a></td></tr>');
+    });
+}
+
+function play() {
+    currentBets.forEach(function (element) {
+        $('#betList tr:last').after('<tr><td>' + players[parseInt(element.player)].name + '</td><td>' + element.amount + '</td><td>' + element.horse + '</td></tr>');
+    });
+    currentHorses.forEach(function (element) {
+        $('#race div:last').after('<div id="' + element + '" class="horse"></div>');
+    });
+}
+
+function addPlayer() {
+    updateName();
+    if (isNameValid) {
+        let name = $("#nameInput").val().substr(0, 1).toUpperCase() + $("#nameInput").val().substr(1);
+        players.push({
+            name: name,
+            balance: DEFAULT_BALANCE
+        });
+        $('#playerList tr:last').after('<tr><td>' + players[players.length - 1].name + '</td><td>' + players[players.length - 1].balance + '</td><td class="hasButton"><a class="button destructive">remove</a></td></tr>');
+        $("#playerAmount").fadeOut().fadeIn().html(players.length);
+        transition("add", "players");
+        $("#nameInput").val("");
+    }
+}
+
+function removePlayer(name) {
+    if (players.getContaining(name)) {
+        players.pop(players.getContaining(name));
+        if (players.length < 1) {
+            $("#players").fadeOut();
+            setTimeout(function () {
+                $("#playerList").find("tbody").html('<tr class="hidden"></tr>');
+                $("#noPlayerWarning").removeClass("hidden");
+                $("#playerList").addClass("hidden");
+                fixPlayers();
+                $("#players").fadeIn();
+            }, 400);
+        } else {
+            $('#playerList [name="' + name + '"]').animate({
+                opacity: 0
+            }, 300)
+            setTimeout(function () {
+                $('#playerList [name="' + name + '"]').addClass("hidden");
+            }, 300);
+        }
+    }
+}
+
+function updateName() {
+    // Check for errors
+    let error = $("#nameInputError");
+    if (!$("#nameInput").val()) {
+        isNameValid = false;
+        error.html("Please input a valid name!");
+        error.css("display", "block");
+    } else if (players.contains($("#nameInput").val())) {
+        isNameValid = false;
+        error.html("Please input a unique name!");
+        error.css("display", "block");
+    } else {
+        isNameValid = true;
+        error.html();
+        error.css("display", "none");
+    }
 }
 
 function fixPlayers() {
     if (players.length > 0) {
         $("#playerList").removeClass("hidden");
         $("#noPlayerWarning").addClass("hidden");
-        $("#players").find(".addPlayer").addClass("hidden");
+        $("#addPlayer").addClass("hidden");
         $("#players").find(".buttonWrapper").removeClass("hidden");
     } else {
-        $("#players").find(".addPlayer").removeClass("hidden");
+        $("#addPlayer").removeClass("hidden");
         $("#players").find(".buttonWrapper").addClass("hidden");
     }
 }
 
 function continueBettingButton() {
     currentPlayer++;
-    continueBetting();
-}
-
-function continueBetting() {
     $("#betting").animate({
         opacity: 0
     }, 300);
+    continueBetting();
+    $("#betting").animate({
+        opacity: 1
+    }, 300);
+}
+
+function continueBetting() {
     setTimeout(function () {
+        $("#hash").html(updateHash());
+        $("#hashWrapper").animate({
+            opacity: 1
+        }, 300);
+
         $("#notEnoughMoney").addClass("hidden");
+        $("#dropOrigin").html('<div id="draggableBill" class="hidden" draggable="true"></div>');
 
         // Fix button
-        if (players.length - 1 > currentPlayer) $("#betting").find(".continueButton").attr("onclick", "continueBettingButton()").html("Continue to Next Player");
-        else $("#betting").find(".continueButton").removeClass("secondary").attr("onclick", "startRound()").html("Continue to Game");
+        if (players.length - 1 > currentPlayer) $("#betting").find(".continueButton").off("click").on("click", function () {
+            continueBettingButton();
+        }).html("Continue to Next Player");
+        else $("#betting").find(".continueButton").removeClass("secondary").addClass("disabled").off("click").html("Continue to Game");
 
         // Set horses
         $(".selectWrapper").eq(1).html('<span class="placeholder placeholderHorse">choose a horse</span><ul id="selectHorse" class="select"><li id="placeholderHorse"><a href="">choose a horse</a></li></ul>');
@@ -106,98 +255,106 @@ function continueBetting() {
         //Update Player
         $("#insertPlayer").html(players[currentPlayer].name);
         $("#playerBalance").html("$" + players[currentPlayer].balance);
-        $("#betting").animate({
-            opacity: 1
-        }, 300);
     }, 300);
 }
 
 function startRound() {
-    console.log("start round");
     transition("betting", "play");
 }
 
 function startRace() {
-    console.log("animate");
+    $("#play").find(".button:last").addClass("disabled").off("click").html("See Results");
     animateRace();
 }
 
 function animateRace() {
     setTimeout(function () {
-        //console.log("loop");
+        $(".horse").animateSprite({
+            fps: 13,
+            animations: {
+                run: [1, 2, 3, 4, 5, 6]
+            },
+            autoplay: false,
+            loop: true
+        });
         $('.horse').animateSprite('play', 'run');
         $(".horse").each(function () {
-            var newInt = Math.floor(Math.random() * 3) + 1;
-            $(this).css('margin-left', '+=' + newInt);
-            if (parseInt($(this).css('margin-left')) > maxPosition) maxPosition = parseInt($(this).css('margin-left'));
-        });
-        if (maxPosition < 500) {          // If i > 0, keep going
-            animateRace();       // Call the loop again, and pass it the current value of i
-        } else {
+            var newInt = Math.floor(Math.random() * 10) + 1;
 
+            if (parseInt($(this).css('margin-left')) + newInt > 500)
+                newInt = 500 - parseInt($(this).css('margin-left'));
+
+            $(this).animate({
+                marginLeft: "+=" + newInt + "px",
+            }, 50);
+            //$(this).css('margin-left', '+=' + newInt);
+            if (parseInt($(this).css('margin-left')) > maxPosition) {
+                maxPosition = parseInt($(this).css('margin-left'));
+                winningHorse = $(this);
+            }
+        });
+        if (maxPosition < 500) { // If i > 0, keep going
+            animateRace(); // Call the loop again, and pass it the current value of i
+        } else {
             $('.horse').animateSprite("stop").css("background-position", "0px -60.75px");
+            $(winningHorse).addClass("winner");
+            $("#winnerHorse").html(winningHorse.attr("id")).parent().removeClass("hidden").addClass("attention");
+            $("#play").find(".button:last").fadeOut().fadeIn().off("click").on("click", function () {
+                openResults();
+            }).removeClass("disabled");
         }
-    }, 400);
+    }, 300);
 };
 
 function toggleBets() {
     if ($("#betList").toggleClass("hidden").hasClass("hidden")) {
+        $("#play").find(".button:first").html("reveal");
         $("#race").removeClass("hidden");
     } else {
+        $("#play").find(".button:first").html("hide");
         $("#race").addClass("hidden");
     }
 }
 
-function play() {
-    currentBets.forEach(function (element) {
-        console.log(element.player);
-        $('#betList tr:last').after('<tr><td>' + players[parseInt(element.player)].name + '</td><td>' + element.amount + '</td><td>' + element.horse + '</td><td><a class="button destructive">remove</a></td></tr>');
-    });
-    currentHorses.forEach(function (element) {
-        $('#race div:last').after('<div id="' + element + '" class="horse"></div>');
-    });
-}
-
-function addPlayer() {
-    updateName();
-    if (isNameValid) {
-        players.push({
-            name: $("#nameInput").val(),
-            balance: DEFAULT_BALANCE
-        });
-        $('#playerList tr:last').after('<tr><td>' + players[players.length - 1].name + '</td><td>' + players[players.length - 1].balance + '</td><td><a class="button destructive">remove</a></td></tr>');
-        $("#playerAmount").fadeOut().fadeIn().html(players.length);
-        transition("add", "players");
-        $("#nameInput").val("");
-    }
-}
-
-function updateName() {
-    // Check for errors
-    let error = $("#nameInputError");
-    if (!$("#nameInput").val()) {
-        isNameValid = false;
-        error.html("Please input a valid name!");
-        error.css("display", "block");
-    } else if (players.contains($("#nameInput").val())) {
-        isNameValid = false;
-        error.html("Please input a unique name!");
-        error.css("display", "block");
+function openResults() {
+    if (players.cantContinue()) {
+        $("#end").find(".button:last").off("click").on("click", function () {
+            initializeGame();
+        }).html("Restart Game");
     } else {
-        isNameValid = true;
-        error.html();
-        error.css("display", "none");
+        currentBets.forEach(function (element) {
+            console.log('gg');
+            let amount;
+            if (element.horse == $(winningHorse).attr("id")) {
+                amount = "$" + element.amount;
+                players[parseInt(element.player)].balance += parseInt(element.amount) * 2;
+            } else {
+                amount = "-$" + element.amount;
+            }
+            $('#winnerList tr:last').after('<tr><td>' + players[parseInt(element.player)].name + '</td><td>' + amount + '</td></tr>');
+        });
+
+        transition("play", "end");
     }
+}
+
+function updateHash() {
+    let hash = "";
+    for (var i = 0; i < 10; i++)
+        hash += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
+    return hash;
 }
 
 function transition(currentId, nextId) {
-    // Start Exceptions
-    if (nextId == "players") {
-        fixPlayers();
-    } else if (nextId == "betting") {
+    // Exceptions
+    if (nextId == "betting") {
         continueBetting();
     } else if (nextId == "play") {
         play();
+    } else if (nextId == "add") {
+        $('#addPlayerButton').off("click").on("click", function () {
+            addPlayer();
+        });
     }
 
     // Regular Behaviour
@@ -206,43 +363,27 @@ function transition(currentId, nextId) {
     }, 600);
     setTimeout(function () {
         $("#" + currentId).addClass("hidden");
+
+        // More Exceptions
+        if (nextId == "players") {
+            initializeRound();
+            fixPlayers();
+        }
+
         $("#" + nextId).css("opacity", 0).removeClass("hidden").animate({
             opacity: 1
         }, 600);
+        if ($("#" + currentId).hasClass("hasFooter") && $("footer").hasClass("hidden")) {
+            $("footer").css("opacity", "0").removeClass("hidden").animate({
+                opacity: 1
+            }, 600);
+        }
 
         // End Exceptions
         if (nextId == "players" && players.length < 1) {
             $("#noPlayerWarning").removeClass("hidden");
         }
     }, 600);
-}
-
-/* TODO
-function updateHash(random) {
-    for (var i = 0; i < 2; i++)
-        hash += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
-    return random;
-}
-*/
-
-function openCredits() {
-    $("section").each(function () {
-        if (!$(this).hasClass("hidden") && $(this).attr("id") != "credits") {
-            origin = $(this).attr("id");
-        }
-    });
-    transition(origin, "credits");
-    $("#creditsLink").html('<a onclick="goBack();">Return</a>');
-}
-
-function goBack() {
-    $("section").each(function () {
-        if (!$(this).hasClass("hidden") && $(this).attr("id") != "credits") {
-            origin = $(this).attr("id");
-        }
-    });
-    $("#creditsLink").html('<a onclick="openCredits();">Credits</a>');
-    transition("credits", origin);
 }
 
 function horseListener(ev) {
@@ -279,18 +420,20 @@ function startListeners() {
     $("#dropTarget").on('dragover', dragOver).on('dragenter', dragEnter).on('dragleave', dragLeave).on('drop', dragDrop);
 }
 
+function stopListeners() {
+    $("#dropTarget").off('dragover', dragOver).off('dragenter', dragEnter).off('dragleave', dragLeave).off('drop', dragDrop);
+}
+
 function dragOver(e) {
     e.preventDefault();
 }
 
 function dragEnter(e) {
     e.preventDefault();
-    console.log("enter");
     $(this).addClass("hovered");
 }
 
 function dragLeave() {
-    console.log("leave");
     $(this).removeClass("hovered");
 }
 
@@ -304,6 +447,9 @@ function dragDrop() {
         if (players[currentPlayer].balance < parseInt($("#draggableBill").attr("value"))) {
             $("#notEnoughMoney").removeClass("hidden");
         } else {
+            $("#betting").find(".continueButton").removeClass("disabled").on("click", function () {
+                startRound();
+            });
             players[currentPlayer].balance -= parseInt($("#draggableBill").attr("value"));
             if (currentBets.isSimilarTo(currentPlayer, $('#selectHorse li:first').attr("name"))) {
                 currentBets[currentBets.isSimilarTo(currentPlayer, $('#selectHorse li:first').attr("name"))].amount += parseInt($("#draggableBill").attr("value"));
@@ -322,12 +468,25 @@ function dragDrop() {
     }, 200);
 }
 
-
 Array.prototype.contains = function (name) {
     for (i in this) {
         if (this[i].name == name) return true;
     }
     return false;
+}
+
+Array.prototype.getContaining = function (name) {
+    for (i in this) {
+        if (this[i].name == name) return i;
+    }
+    return false;
+}
+
+Array.prototype.cantContinue = function () {
+    for (i in this) {
+        if (this[i].balance > 0) return false;
+    }
+    return true;
 }
 
 Array.prototype.isSimilarTo = function (player, horse) {

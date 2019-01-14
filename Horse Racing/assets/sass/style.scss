@@ -81,7 +81,8 @@ $primary: $primary600;
   display: none !important;
 }
 
-#playerAmount, #playerBalance {
+#playerAmount,
+#playerBalance {
   font-weight: bold;
 }
 
@@ -97,15 +98,19 @@ $primary: $primary600;
   &[value="5"] {
     background-image: url('../img/Bill5.png');
   }
+
   &[value="10"] {
     background-image: url('../img/Bill10.png');
   }
+
   &[value="20"] {
     background-image: url('../img/Bill20.png');
   }
+
   &[value="50"] {
     background-image: url('../img/Bill50.png');
   }
+
   &[value="100"] {
     background-image: url('../img/Bill100.png');
   }
@@ -144,6 +149,7 @@ $primary: $primary600;
   &.winner {
     background-color: $primary;
     border-radius: 5px;
+    padding-top: 5px;
   }
 }
 
@@ -152,6 +158,7 @@ $primary: $primary600;
   height: 375px;
   background-color: $neutrals900;
   border-radius: 10px;
+
   .horse {
     margin-left: 0;
   }
@@ -285,7 +292,7 @@ section {
     height: 100vh;
   }
 
-  &.hasNavbar {
+  &.hasFooter {
     height: 90vh;
   }
 
@@ -346,6 +353,7 @@ nav {
       &.right {
         margin-left: auto;
         margin-right: 0;
+        opacity: 0;
 
         &::before {
           display: none;
@@ -435,6 +443,11 @@ h1 {
     padding: 0.2em 0.5em 0.3em 0.5em;
     margin-bottom: 0.5em;
   }
+
+  span.special {
+    font-weight: 800;
+    color: $primary400;
+  }
 }
 
 h2 {
@@ -447,6 +460,16 @@ h2 {
     @include error;
     margin-bottom: 1em;
   }
+
+  &.attention {
+    color: $destructive500;
+    font-size: 1.5em;
+    font-weight: 600;
+    -webkit-transition: opacity 500ms linear;
+    transition: opacity 500ms linear;
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .inputBox h5 {
@@ -454,6 +477,13 @@ h2 {
   margin: 1vh 0;
   font-weight: 100;
   @include error;
+}
+
+p {
+  span.special {
+    font-weight: 800;
+    color: $primary400;
+  }
 }
 
 /* Preloader
@@ -522,6 +552,17 @@ h2 {
     border-radius: 15px;
   }
 
+  &.disabled {
+    cursor: not-allowed;
+    background-color: $neutrals900;
+    border: 2px solid $neutrals400;
+    color: $neutrals400;
+
+    &:hover {
+      border-radius: 10px;
+    }
+  }
+
   &.secondary {
     background-color: inherit;
     border: 2px solid $neutrals400;
@@ -585,7 +626,7 @@ table {
     tr {
       transition: background 0.35s ease;
 
-      :last-child {
+      td.hasButton {
         width: 15%;
       }
 
@@ -617,6 +658,7 @@ input {
   border: none;
   border-bottom: 1px solid #fff;
   color: #A0A1AE;
+  text-transform: capitalize;
 }
 
 input::-webkit-input-placeholder {
@@ -671,7 +713,7 @@ input:focus~label,
 input:valid~label {
   top: -20px;
   font-size: 14px;
-  color: #f44336;
+  color: $primary;
 }
 
 .bar {
@@ -687,7 +729,7 @@ input:valid~label {
   height: 2px;
   width: 0;
   bottom: 0;
-  background: #f44336;
+  background: $primary;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
@@ -709,7 +751,7 @@ input:focus~.bar:after {
 
 @-webkit-keyframes inputHighlighter {
   from {
-    background: #f44336;
+    background: $primary;
   }
 
   to {
@@ -720,7 +762,7 @@ input:focus~.bar:after {
 
 @-moz-keyframes inputHighlighter {
   from {
-    background: #f44336;
+    background: $primary;
   }
 
   to {
@@ -731,7 +773,7 @@ input:focus~.bar:after {
 
 @keyframes inputHighlighter {
   from {
-    background: #f44336;
+    background: $primary;
   }
 
   to {
