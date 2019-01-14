@@ -18,8 +18,9 @@ var currentHorses;
 var currentBets;
 var maxPosition;
 var winningHorse;
-var moneyTime = false;
 var horseTime = false;
+var moneyTime = false;
+var oddsTime = false;
 
 // Onclick buttons
 $('#restartButton').click(function () {
@@ -103,8 +104,10 @@ function initializeRound() {
     currentBets = [];
     maxPosition = 0;
     winningHorse = 0;
-    moneyTime = false;
     horseTime = false;
+    moneyTime = false;
+    oddsTime = false;
+
 
     // Methods
     shuffle(DEFAULT_HORSES);
@@ -130,7 +133,7 @@ function initializeRound() {
 
 function play() {
     currentBets.forEach(function (element) {
-        $('#betList tr:last').after('<tr><td>' + players[parseInt(element.player)].name + '</td><td>' + element.amount + '</td><td>' + element.horse + '</td></tr>');
+        $('#betList tr:last').after('<tr><td>' + players[parseInt(element.player)].name + '</td><td>' + element.amount + '</td><td>' + element.horse + '</td><td>' + element.odds + '</td></tr>');
     });
     currentHorses.forEach(function (element) {
         $('#race div:last').after('<div id="' + element + '" class="horse"></div>');
@@ -233,24 +236,28 @@ function continueBetting() {
         else $("#betting").find(".continueButton").removeClass("secondary").addClass("disabled").off("click").html("Continue to Game");
 
         // Set horses
+        $(".selectWrapper").eq(0).html('<span class="placeholder placeholderMoney">choose amount</span><ul id="selectMoney" class="select"><li id="placeholderMoney"><a href="">choose amount</a></li><li name="5"><a href="">5</a></li><li name="10"><a href="">10</a></li><li name="20"><a href="">20</a></li><li name="50"><a href="">50</a></li><li name="100"><a href="">100</a></li></ul>')
         $(".selectWrapper").eq(1).html('<span class="placeholder placeholderHorse">choose a horse</span><ul id="selectHorse" class="select"><li id="placeholderHorse"><a href="">choose a horse</a></li></ul>');
+        $(".selectWrapper").eq(2).html('<span class="placeholder placeholderOdds">choose odds</span><ul id="selectOdds" class="select"><li id="placeholderOdds"><a href="">choose amount</a></li><li value="win"><a href="">win</a></li><li value="place"><a href="">place</a></li><li value="show"><a href="">show</a></li></ul>')
         currentHorses.forEach(function (element) {
             $('#selectHorse li:last').after('<li name="' + element + '"><a href="">' + element + '</a></li>');
         });
-        $(".selectWrapper").eq(0).html('<span class="placeholder placeholderMoney">choose amount</span><ul id="selectMoney" class="select"><li id="placeholderMoney"><a href="">choose amount</a></li><li name="5"><a href="">5</a></li><li name="10"><a href="">10</a></li><li name="20"><a href="">20</a></li><li name="50"><a href="">50</a></li><li name="100"><a href="">100</a></li></ul>')
-
         // Listeners
         $('.placeholderMoney').on('click', function () {
             $('.placeholderMoney').css('opacity', '0');
             $('#selectMoney').toggle();
         });
-
         $('.placeholderHorse').on('click', function () {
             $('.placeholderHorse').css('opacity', '0');
             $('#selectHorse').toggle();
         });
+        $('.placeholderOdds').on('click', function () {
+            $('.placeholderOdds').css('opacity', '0');
+            $('#selectOdds').toggle();
+        });
         $('#selectMoney li').on('click', moneyListener);
         $('#selectHorse li').on('click', horseListener);
+        $('#selectOdds li').on('click', oddsListener);
 
         //Update Player
         $("#insertPlayer").html(players[currentPlayer].name);
@@ -323,11 +330,18 @@ function openResults() {
         }).html("Restart Game");
     } else {
         currentBets.forEach(function (element) {
-            console.log('gg');
             let amount;
             if (element.horse == $(winningHorse).attr("id")) {
-                amount = "$" + element.amount;
-                players[parseInt(element.player)].balance += parseInt(element.amount) * 2;
+                let multiplier;
+                if (element.odds == "win") {
+                    multiplier = 2;
+                } else if (element.odds == "place") {
+                    multiplier = 1.75;
+                } else if (element.odds == "show") {
+                    multiplier = 1.5;
+                }
+                amount = "$" + element.amount * (multiplier - 1);
+                players[parseInt(element.player)].balance += parseInt(element.amount) * multiplier;
             } else {
                 amount = "-$" + element.amount;
             }
@@ -391,8 +405,9 @@ function horseListener(ev) {
     var index = $(this).index();
     if (!horseTime && !$(this).text().includes("choose")) {
         $("#placeholderHorse").addClass("hidden");
-        startListeners();
         horseTime = true;
+        if (moneyTime && horseTime && oddsTime)
+            startListeners();
     }
 
     $('.placeholderHorse').text($(this).text()).css('opacity', '1');
@@ -406,6 +421,8 @@ function moneyListener(ev) {
     if (!moneyTime && !$(this).text().includes("choose")) {
         $("#placeholderMoney").addClass("hidden");
         moneyTime = true;
+        if (moneyTime && horseTime && oddsTime)
+            startListeners();
     }
 
     $("#draggableBill").attr("value", $(this).attr("name")).css("opacity", "0").removeClass("hidden").animate({
@@ -414,6 +431,21 @@ function moneyListener(ev) {
     $('.placeholderMoney').text($(this).text()).css('opacity', '1');
     $('#selectMoney').find('li').eq(index).prependTo('#selectMoney');
     $('#selectMoney').toggle();
+}
+
+function oddsListener(ev) {
+    ev.preventDefault();
+    var index = $(this).index();
+    if (!oddsTime && !$(this).text().includes("choose")) {
+        $("#placeholderOdds").addClass("hidden");
+        oddsTime = true;
+        if (moneyTime && horseTime && oddsTime)
+            startListeners();
+    }
+
+    $('.placeholderOdds').text($(this).text()).css('opacity', '1');
+    $('#selectOdds').find('li').eq(index).prependTo('#selectOdds');
+    $('#selectOdds').toggle();
 }
 
 function startListeners() {
@@ -457,7 +489,8 @@ function dragDrop() {
                 currentBets.push({
                     player: currentPlayer,
                     amount: parseInt($("#draggableBill").attr("value")),
-                    horse: $('#selectHorse li:first').attr("name")
+                    horse: $('#selectHorse li:first').attr("name"),
+                    odds: $('#selectOdds li:first').attr("value")
                 });
             }
             $("#playerBalance").fadeOut().fadeIn().html("$" + players[currentPlayer].balance);
