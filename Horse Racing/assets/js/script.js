@@ -238,7 +238,7 @@ function continueBetting() {
         currentHorses.forEach(function (element) {
             $('#selectHorse li:last').after('<li name="' + element + '"><a href="">' + element + '</a></li>');
         });
-        
+
         // Listeners
         $('.placeholderMoney').on('click', function () {
             $('.placeholderMoney').css('opacity', '0');
