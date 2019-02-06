@@ -84,10 +84,6 @@ function initializeGame() {
         }
     });
 
-    /*$('#addPlayer').off("click").on("click", function () {
-        transition("players", "add");
-    });*/
-
     players = [];
     $("#playerAmount").html(players.length);
     $("#creditButton").addClass("credits").html("Credits");
@@ -242,6 +238,7 @@ function continueBetting() {
         currentHorses.forEach(function (element) {
             $('#selectHorse li:last').after('<li name="' + element + '"><a href="">' + element + '</a></li>');
         });
+        
         // Listeners
         $('.placeholderMoney').on('click', function () {
             $('.placeholderMoney').css('opacity', '0');
