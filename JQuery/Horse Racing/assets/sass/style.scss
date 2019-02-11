@@ -1,39 +1,20 @@
 /*===========================
-	Project:	Tregubov CSS
+	Project:  Horse Racing CSS
 	Version:	1.0
 
 	[Table of contents]
-
-	01. Variables
-	02. Reset Styles
-  03. Layout
-  04. Navigation Bar
-  04. Footer
-	04. Typography
-	05. Preloader
-  06. Animations
-  07. Buttons
-
-
-	04. Header
-	05. Navigation
-	06. Mobile Menu
-	07. Light Navigation
-	08. Swiper Sliders
-	09. Parallax Portfolio
-	10. Text Links
-	11. Scroll Down Line
-	12. Portfolio Grid
-	13. Masonry Cards
-	14. Hover List
-	15. CTA
-	16. Entrance
-	17. Page Title
-	18. Justified Gallery
-	19. Portfolio With Background Blur
-	20. Photo Gallery
-	21. Blog
-
+  01. Variables
+  02. Global Styles
+	03. Reset Styles
+  04. Layout
+  05. Navigation Bar
+  06. Footer
+	07. Typography
+	08. Preloader
+  09. Animations
+  10. Buttons
+  11. Table
+  12. Input Box
 ===========================*/
 
 /* Variables
@@ -75,7 +56,7 @@ $destructive100: hsl(360, 100%, 97%);
 $bg: $neutrals1000;
 $primary: $primary600;
 
-/* Temporary
+/* Global Styles
 ===========================*/
 .hidden {
   display: none !important;
@@ -96,23 +77,23 @@ $primary: $primary600;
   cursor: pointer;
 
   &[value="5"] {
-    background-image: url('../img/Bill5.png');
+    background-image: url("../img/Bill5.png");
   }
 
   &[value="10"] {
-    background-image: url('../img/Bill10.png');
+    background-image: url("../img/Bill10.png");
   }
 
   &[value="20"] {
-    background-image: url('../img/Bill20.png');
+    background-image: url("../img/Bill20.png");
   }
 
   &[value="50"] {
-    background-image: url('../img/Bill50.png');
+    background-image: url("../img/Bill50.png");
   }
 
   &[value="100"] {
-    background-image: url('../img/Bill100.png');
+    background-image: url("../img/Bill100.png");
   }
 }
 
@@ -126,7 +107,7 @@ $primary: $primary600;
   border-radius: 0.25em;
 
   &#dropTarget {
-    background-image: url('../img/Bank.png');
+    background-image: url("../img/Bank.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 40%;
@@ -223,7 +204,6 @@ $primary: $primary600;
         &::after {
           background: $primary700;
         }
-
       }
     }
 
@@ -234,25 +214,24 @@ $primary: $primary600;
       &::after {
         width: 100%;
       }
-
     }
   }
 
   a {
     text-decoration: none;
-    transition: all .4s;
+    transition: all 0.4s;
     color: $primary;
     position: relative;
 
     &:after {
       position: absolute;
-      content: '';
+      content: "";
       height: 5px;
       width: 0;
       left: 0;
       background: lighten($primary, 20%);
       bottom: 0;
-      transition: all .4s ease-out;
+      transition: all 0.4s ease-out;
     }
   }
 }
@@ -312,15 +291,12 @@ section {
     * {
       margin: 0 1vw 0 1vw;
     }
-
   }
 }
 
 /* Navigation Bar
 ===========================*/
 nav {
-  //display: none;
-  //opacity: 0;
   height: 5vh;
   padding: 0 2vw;
   background-color: $neutrals900;
@@ -339,7 +315,7 @@ nav {
       display: flex;
 
       &::before {
-        content: '';
+        content: "";
         height: 3vh;
         margin-right: 2vw;
         margin: auto 2vw auto 0;
@@ -467,7 +443,7 @@ h2 {
     font-weight: 600;
     -webkit-transition: opacity 500ms linear;
     transition: opacity 500ms linear;
-    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     transform: translate3d(0, 0, 0);
   }
 }
@@ -637,7 +613,8 @@ table {
   }
 }
 
-/* Input Box */
+/* Input Box
+===========================*/
 .inputBox {
   text-align: left;
   position: relative;
@@ -657,7 +634,7 @@ input {
   width: 100vw;
   border: none;
   border-bottom: 1px solid #fff;
-  color: #A0A1AE;
+  color: #a0a1ae;
   text-transform: capitalize;
 }
 
@@ -709,8 +686,8 @@ label {
 }
 
 /* active state */
-input:focus~label,
-input:valid~label {
+input:focus ~ label,
+input:valid ~ label {
   top: -20px;
   font-size: 14px;
   color: $primary;
@@ -725,7 +702,7 @@ input:valid~label {
 .bar:before,
 .bar:after {
   position: absolute;
-  content: '';
+  content: "";
   height: 2px;
   width: 0;
   bottom: 0;
@@ -744,8 +721,8 @@ input:valid~label {
 }
 
 /* active state */
-input:focus~.bar:before,
-input:focus~.bar:after {
+input:focus ~ .bar:before,
+input:focus ~ .bar:after {
   width: 50%;
 }
 

@@ -1,0 +1,123 @@
+/* Variables
+===========================*/
+$primary1000: hsl(170, 97%, 15%);
+$primary900: hsl(168, 80%, 23%);
+$primary800: hsl(166, 72%, 28%);
+$primary700: hsl(164, 71%, 34%);
+$primary600: hsl(162, 63%, 41%);
+$primary500: hsl(160, 51%, 49%);
+$primary400: hsl(158, 58%, 62%);
+$primary300: hsl(156, 73%, 74%);
+$primary200: hsl(154, 75%, 87%);
+$primary100: hsl(152, 68%, 96%);
+
+$neutrals1000: hsl(209, 61%, 16%);
+$neutrals900: hsl(211, 39%, 23%);
+$neutrals800: hsl(209, 34%, 30%);
+$neutrals700: hsl(209, 28%, 39%);
+$neutrals600: hsl(210, 22%, 49%);
+$neutrals500: hsl(209, 23%, 60%);
+$neutrals400: hsl(211, 27%, 70%);
+$neutrals300: hsl(210, 31%, 80%);
+$neutrals200: hsl(212, 33%, 89%);
+$neutrals100: hsl(210, 36%, 96%);
+
+$destructive1000: hsl(360, 92%, 20%);
+$destructive900: hsl(360, 85%, 25%);
+$destructive800: hsl(360, 79%, 32%);
+$destructive700: hsl(360, 72%, 38%);
+$destructive600: hsl(360, 67%, 44%);
+$destructive500: hsl(360, 64%, 55%);
+$destructive400: hsl(360, 71%, 66%);
+$destructive300: hsl(360, 77%, 78%);
+$destructive200: hsl(360, 82%, 89%);
+$destructive100: hsl(360, 100%, 97%);
+
+$bg: $neutrals1000;
+$primary: $primary600;
+
+/* Mixins
+===========================*/
+@mixin error {
+  color: #ffc107;
+  -webkit-transition: opacity 500ms linear;
+  transition: opacity 500ms linear;
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@mixin noInteraction {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@mixin hasInteraction {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Typography
+===========================*/
+@font-face {
+  font-family: "Astronout";
+  src: url("/assets/fonts/Astronout.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Eina03";
+  src: url("/assets/fonts/Eina03-Light.ttf") format("ttf");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Eina03";
+  src: url("/assets/fonts/Eina03-Regular.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Eina03";
+  src: url("/assets/fonts/Eina03-RegularItalic.ttf") format("ttf");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Eina03";
+  src: url("/assets/fonts/Eina03-SemiBold.ttf") format("ttf");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Eina03";
+  src: url("/assets/fonts/Eina03-SemiBoldItalic.ttf") format("ttf");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Eina03";
+  src: url("/assets/fonts/Eina03-Bold.ttf") format("ttf");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Eina03";
+  src: url("/assets/fonts/Eina03-BoldItalic.ttf") format("ttf");
+  font-weight: 800;
+  font-style: italic;
+}
