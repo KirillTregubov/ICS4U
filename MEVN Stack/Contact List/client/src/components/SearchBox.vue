@@ -17,7 +17,7 @@
       </ul>
       <input id="main-submit" type="submit" value="Search">
     </form>-->
-    <input type="text" v-model="searchQuery" placeholder="Search title.."/>
+    <input type="text" v-model="searchQuery" @input="send" placeholder="Search title.."/>
     <!-- <svg class="submit-button">
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#search"></use>
     </svg> -->
@@ -69,6 +69,9 @@ export default {
     popup: function () {
       $('.search-description').slideToggle(100)
       this.searchQuery = ''
+    },
+    send: function () {
+      this.$emit('search', this.searchQuery)
     }
   }
 }

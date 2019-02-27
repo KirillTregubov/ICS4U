@@ -6,20 +6,19 @@ var ContactSchema = new Schema({
     first: String,
     last: String
   },
-  img: {
-    data: Buffer,
-    contentType: String
-  },
-  phone: [
-    {
-      type: Number
-    }
-  ],
-  email: [
-    {
-      type: String
-    }
-  ],
+  imagePath: String,
+  // phone: [
+  //   {
+  //     type: Number
+  //   }
+  // ],
+  // email: [
+  //   {
+  //     type: String
+  //   }
+  // ],
+  phone: String,
+  email: String,
   address: {
     street: String,
     city: String,

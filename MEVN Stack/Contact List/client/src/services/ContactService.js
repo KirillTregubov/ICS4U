@@ -1,8 +1,12 @@
 import Api from '@/services/Api'
 
 export default {
-  fetchContacts () {
-    return Api().get('contacts')
+  fetchContacts (filter) {
+    return Api().get('contacts' + filter)
+  },
+
+  uploadImage (formData) {
+    return Api().post('upload/', formData)
   },
 
   createContact (params) {

@@ -7,7 +7,7 @@
       <li>
         <router-link to="/about">About</router-link>
       </li>
-      <li class="right"><SearchBox/></li>
+      <li class="right"><SearchBox @search="search"/></li>
     </ul>
   </nav>
 </template>
@@ -17,6 +17,11 @@ import SearchBox from '@/components/SearchBox.vue'
 
 export default {
   name: 'navigation',
+  methods: {
+    search: function (searchQuery) {
+      this.$emit('search', searchQuery)
+    }
+  },
   components: {
     SearchBox
   }
@@ -25,7 +30,7 @@ export default {
 
 <style lang="scss" scoped>
 nav {
-  height: 5vh;
+  height: 3em;
   padding: 0 2vw;
   background-color: $neutrals900;
   font-size: 1.1em;

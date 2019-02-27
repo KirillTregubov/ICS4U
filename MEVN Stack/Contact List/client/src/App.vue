@@ -1,7 +1,7 @@
 <template>
   <section id="app">
-    <Nav/>
-    <router-view/>
+    <Nav @search="search"/>
+    <router-view :searchQuery="searchQuery"/>
   </section>
 </template>
 
@@ -10,6 +10,16 @@ import Nav from '@/components/Nav.vue'
 
 export default {
   name: 'app',
+  data () {
+    return {
+      searchQuery: ''
+    }
+  },
+  methods: {
+    search: function (searchQuery) {
+      this.searchQuery = searchQuery
+    }
+  },
   components: {
     Nav
   }
@@ -83,7 +93,8 @@ h2 {
   }
 }
 
-.inputBox h5 {
+.inputBox h5,
+.container h5 {
   display: none;
   margin: 1vh 0;
   font-weight: 100;
@@ -94,6 +105,109 @@ p {
   span.special {
     font-weight: 800;
     color: $primary400;
+  }
+}
+
+/* Button
+===========================*/
+.button {
+  @include noInteraction;
+  display: inline-block;
+  background-color: $primary;
+  border-color: $primary;
+  color: $neutrals100;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 8px 8px;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 2px solid $primary;
+
+  &:hover {
+    background-color: $primary500;
+    border-color: $primary500;
+    border-radius: 15px;
+  }
+
+  &:active {
+    background-color: $primary700;
+    border-color: $primary700;
+    border-radius: 15px;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    background-color: $neutrals900;
+    border: 2px solid $neutrals400;
+    color: $neutrals400;
+
+    &:hover {
+      border-radius: 10px;
+    }
+  }
+
+  &.secondary {
+    background-color: inherit;
+    border: 2px solid $neutrals400;
+    color: $neutrals400;
+
+    &:hover {
+      color: $primary;
+      border-color: $primary;
+    }
+
+    &:active {
+      background-color: $neutrals900;
+    }
+  }
+
+  &.destructive {
+    background-color: $destructive600;
+    border-color: $destructive600;
+    color: $neutrals100;
+
+    &:hover {
+      background-color: $destructive500;
+      border-color: $destructive500;
+    }
+
+    &:active {
+      background-color: $destructive700;
+      border-color: $destructive700;
+    }
+  }
+}
+#searchBox input {
+  color: $neutrals300 !important;
+  background-color: $neutrals800 !important;
+  border-radius: 10px;
+  margin-right: 10px;
+  &::placeholder {
+      color: $neutrals500 !important;
+    }
+}
+.single-select-wrapper {
+  input {
+    color: $neutrals300 !important;
+    background-color: $neutrals900 !important;
+    border: 1px solid $neutrals900 !important;
+
+    &::placeholder {
+      color: $neutrals500 !important;
+    }
+  }
+  ul {
+    background-color: $neutrals900 !important;
+    color: $neutrals400 !important;
+
+    .active {
+      background-color: $neutrals800 !important;
+    }
   }
 }
 </style>
