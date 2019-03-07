@@ -16,7 +16,7 @@
 import SearchBox from '@/components/SearchBox.vue'
 
 export default {
-  name: 'navigation',
+  name: 'Navigation',
   methods: {
     search: function (searchQuery) {
       this.$emit('search', searchQuery)

@@ -193,8 +193,12 @@ export default {
         model = this.titleCase(model)
       } else if (model === this.email) {
         model = model.toLowerCase()
-      } else if (model === this.postal) model = model.toUpperCase()
-      else if (model === this.phone) {
+      } else if (model === this.postal) {
+        model = model.toUpperCase()
+        if (model.length > 3 && model.slice(3, 4) !== ' ') {
+          model = model.slice(0, 3) + ' ' + model.slice(3)
+        }
+      } else if (model === this.phone) {
         var cleaned = ('' + model).replace(/\D/g, '')
         var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/)
         if (match) {
@@ -274,7 +278,7 @@ export default {
         } else {
           this.provinceError = false
         }
-        if (!this.postal || !this.validatePostal(this.postal.toUpperCase())) {
+        if (!this.postal || !this.validatePostal(this.postal)) {
           errors.push('Valid postal required.')
           if (this.postal) this.postalWord = 'incorrect'
           this.postalError = true
@@ -298,7 +302,6 @@ export default {
     },
     validatePhone: function (phone) {
       var re = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
-      console.log(re.test(phone))
       return re.test(phone)
     },
     validateStreet: function (street) {
@@ -362,7 +365,7 @@ export default {
 
 <style lang="scss" scoped>
 .form {
-  margin-top: 100px;
+  margin: 75px 0 75px 0;
   display: grid;
   justify-content: center;
   grid-template-columns: auto auto;

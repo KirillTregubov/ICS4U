@@ -2,7 +2,7 @@ import Api from '@/services/Api'
 
 export default {
   fetchContacts (filter) {
-    return Api().get('contacts' + filter)
+    return Api().get('contacts/' + filter)
   },
 
   uploadImage (formData) {

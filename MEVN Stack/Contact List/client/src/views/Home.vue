@@ -7,7 +7,7 @@
       <div class="contactContainer">
         <div>
           <div class="container">
-            <p @click="fetchContacts('image')">Picture</p>
+            <p></p>
             <p @click="fetchContacts('name')">Name</p>
             <p @click="fetchContacts('email')">Email</p>
             <p @click="fetchContacts('phone')">Phone</p>
@@ -134,24 +134,8 @@ export default {
   background-color: $neutrals900;
   border-radius: 10px;
   list-style: none;
-  margin: 5px 25px 5px 25px;
+  margin: 5px 100px 5px 100px;
   padding: 0;
-
-  // &:first-child {
-  //   border-bottom: none;
-  //   border-bottom-left-radius: 0;
-  //   border-bottom-right-radius: 0;
-
-  //   + div {
-  //     border-top-left-radius: 0;
-  //     border-top-right-radius: 0;
-  //     top-margin: 0;
-  //   }
-  // }
-
-  // &:last-child {
-  //   border-bottom: 2px solid $neutrals900;
-  // }
 
   > div {
     margin: 0;
@@ -161,8 +145,9 @@ export default {
     grid-gap: 1rem;
 
     * {
-      justify-self: center;
+      // justify-self: center;
       align-self: center;
+      margin: 0;
     }
     svg,
     img {

@@ -7,16 +7,6 @@ var ContactSchema = new Schema({
     last: String
   },
   imagePath: String,
-  // phone: [
-  //   {
-  //     type: Number
-  //   }
-  // ],
-  // email: [
-  //   {
-  //     type: String
-  //   }
-  // ],
   phone: String,
   email: String,
   address: {

@@ -41,8 +41,17 @@ var Contact = require("../models/contact");
 // Uncomment line below to wipe database
 //db.dropDatabase();
 
-// Fetch all contacts
-app.get("/contacts:filter", (req, res) => {
+// Upload image to database
+app.post("/upload", upload.single('image'), (req, res) => {
+  if(req.file) {
+    res.send({
+      path: req.file.path
+    });
+  }
+});
+
+// Fetch all contacts with a filter
+app.get("/contacts/:filter", (req, res) => {
   var sortingObject = {};
   if (req.params.filter == "name") {
     sortingObject = {
@@ -68,12 +77,6 @@ app.get("/contacts:filter", (req, res) => {
       "name.last": 1,
       "name.first": 1
     };
-  } else if (req.params.filter == "image") {
-    sortingObject = {
-      "imagePath": -1,
-      "name.last": 1,
-      "name.first": 1
-    };
   }
   Contact.find({}, "", function(error, contacts) {
     // replace "" with "name" when done testing
@@ -86,15 +89,6 @@ app.get("/contacts:filter", (req, res) => {
   }).sort(sortingObject);
 });
 
-// Upload image
-app.post("/upload", upload.single('image'), (req, res) => {
-  if(req.file) {
-    res.send({
-      path: req.file.path
-    });
-  }
-});
-
 // Post new contact
 app.post("/contact", (req, res) => {
   var data = req.body;
@@ -105,7 +99,6 @@ app.post("/contact", (req, res) => {
     email: data.email,
     address: data.address
   });
-  console.log(data.email)
   if (data.email == "") {
     newContact.email = "zzzzzzzzzzzzzzzzzzzzzzzzz";
   }
@@ -126,7 +119,7 @@ app.post("/contact", (req, res) => {
   });
 });
 
-// Fetch single post
+// Fetch single contact by id
 app.get("/contact/:id", (req, res) => {
   Contact.findById(req.params.id, "", function(error, contact) {
     if (error) {
@@ -136,7 +129,7 @@ app.get("/contact/:id", (req, res) => {
   });
 });
 
-// Update a post
+// Update a contact by id
 app.put("/contact/:id", (req, res) => {
   Contact.findById(req.params.id, "", function(error, contact) {
     if (error) {
@@ -144,11 +137,11 @@ app.put("/contact/:id", (req, res) => {
     }
 
     var data = req.body;
-    contact.name = data.name;
-    contact.img = data.img;
-    contact.phone = data.phone;
-    contact.email = data.email;
-    contact.address = data.address;
+    contact.name = data.name,
+    contact.imagePath = data.imagePath,
+    contact.phone = data.phone,
+    contact.email = data.email,
+    contact.address = data.address
 
     contact.save(function(error) {
       if (error) {
@@ -161,7 +154,7 @@ app.put("/contact/:id", (req, res) => {
   });
 });
 
-// Delete a post
+// Delete a contact by id
 app.delete("/contact/:id", (req, res) => {
   Contact.remove(
     {
@@ -171,7 +164,6 @@ app.delete("/contact/:id", (req, res) => {
       if (err) res.send(err);
 
       Contact.find({}, "", function(error, contacts) {
-        // replace "" with "name" when done testing
         if (error) {
           console.error(error);
         }

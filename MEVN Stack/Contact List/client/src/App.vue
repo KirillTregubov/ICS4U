@@ -6,24 +6,24 @@
 </template>
 
 <script>
-import Nav from '@/components/Nav.vue'
+import Nav from "@/components/Nav.vue";
 
 export default {
-  name: 'app',
-  data () {
+  name: "App",
+  data() {
     return {
-      searchQuery: ''
-    }
+      searchQuery: ""
+    };
   },
   methods: {
-    search: function (searchQuery) {
-      this.searchQuery = searchQuery
+    search: function(searchQuery) {
+      this.searchQuery = searchQuery;
     }
   },
   components: {
     Nav
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -188,8 +188,8 @@ p {
   border-radius: 10px;
   margin-right: 10px;
   &::placeholder {
-      color: $neutrals500 !important;
-    }
+    color: $neutrals500 !important;
+  }
 }
 .single-select-wrapper {
   input {
@@ -204,6 +204,12 @@ p {
   ul {
     background-color: $neutrals900 !important;
     color: $neutrals400 !important;
+    -ms-overflow-style: none; // IE 10+
+    overflow: -moz-scrollbars-none; // Firefox
+
+    &::-webkit-scrollbar {
+      display: none; // Safari and Chrome
+    }
 
     .active {
       background-color: $neutrals800 !important;

@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'contact',
+  name: 'Contact',
   props: {
     contact: Object
   },
