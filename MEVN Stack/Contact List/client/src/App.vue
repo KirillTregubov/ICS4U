@@ -6,24 +6,24 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav.vue";
+import Nav from '@/components/Nav.vue'
 
 export default {
-  name: "App",
-  data() {
+  name: 'App',
+  data () {
     return {
-      searchQuery: ""
-    };
+      searchQuery: ''
+    }
   },
   methods: {
-    search: function(searchQuery) {
-      this.searchQuery = searchQuery;
+    search: function (searchQuery) {
+      this.searchQuery = searchQuery
     }
   },
   components: {
     Nav
   }
-};
+}
 </script>
 
 <style lang="scss">
