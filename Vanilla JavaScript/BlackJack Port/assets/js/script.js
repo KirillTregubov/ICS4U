@@ -68,7 +68,7 @@ function placeBet() {
         timer = setInterval(displayCards, 700);
         if (playerHandValue == BLACK_JACK) {
             isPlayerDone = true;
-            updatePlayerMessage("Black Jack!!");
+            updatePlayerMessage("Blackjack!!");
         }
         showActions();
         document.getElementById("hash").innerHTML = hash;
@@ -94,7 +94,7 @@ function continueHit() {
         updatePlayerMessage("Bust!!");
         endGame();
     } else if (playerHandValue == BLACK_JACK || playerHandValueLowAce == BLACK_JACK) {
-        updatePlayerMessage("Black Jack!!");
+        updatePlayerMessage("Blackjack!!");
         endGame();
     }
 }
@@ -143,7 +143,7 @@ function continueEndGame() {
 function goToEnd() {
     let child;
     if (playerBalance >= MIN_BET) {
-        document.getElementById("restartButton").innerText = "Quit";
+        document.getElementById("restartButton").innerText = "Forfeit";
         document.getElementById("restartButton").classList.add("secondary");
         document.getElementById("restartButton").onclick = quit;
         document.getElementById("endMessage").innerText = "Continue playing?";
@@ -166,7 +166,7 @@ function quit() {
 }
 
 function updateQuit() {
-    document.getElementById("end").innerHTML = "<h1 id=\"endMessage\" class=\"special\">You Lost!</h1> <a id=\"restartButton\" class= \"button\" onclick=\"startGame();\">Restart</a>"
+    document.getElementById("end").innerHTML = "<h1 id=\"endMessage\" class=\"special\">Thanks for Playing!</h1> <a id=\"restartButton\" class= \"button\" onclick=\"startGame();\">Restart</a>"
     child = document.createElement('h2');
     child.innerText = "Your overall winnings were $" + maxMoney + ".";
     document.getElementById("end").insertChildAtIndex(child, 1);
